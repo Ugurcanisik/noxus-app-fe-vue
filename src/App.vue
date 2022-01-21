@@ -39,25 +39,37 @@ export default {
     Footer
   },
   methods: {
-    display(){
-      if(this.isAuthenticated){
-        return {'display':'inline'}
-      }else{
-        return {'display':'none'}
+    display() {
+      if (this.isAuthenticated) {
+        return {'display': 'inline'}
+      } else {
+        return {'display': 'none'}
       }
+    },
+    initApps() {
+      // this.$store.dispatch("initAuth");
+      this.$store.dispatch("initCategoryApp");
+      this.$store.dispatch("initCiroApp");
+      //this.$store.dispatch("initProductsApp");
+      this.$store.dispatch("initStaffApp");
+      this.$store.dispatch("initTypesApp");
+      this.$store.dispatch("initExpensesApp");
+      this.$store.dispatch("initSettingsApp");
+      this.$store.dispatch("initUsersApp");
     }
   },
-  created() {
-    // this.$store.dispatch("initAuth");
-    this.$store.dispatch("initCategoryApp");
-    this.$store.dispatch("initCiroApp");
-    //this.$store.dispatch("initProductsApp");
-    this.$store.dispatch("initStaffApp");
-    this.$store.dispatch("initTypesApp");
-    this.$store.dispatch("initExpensesApp");
-    this.$store.dispatch("initSettingsApp");
-    this.$store.dispatch("initUsersApp");
+  mounted() {
+    if (this.$store.getters.isAuthenticated !== false) {
+      this.initApps()
+    }
 
+  },
+  watch: {
+    isAuthenticated(value) {
+      if (value !== false) {
+        this.initApps()
+      }
+    }
   },
   computed: {
     ...mapGetters(["isAuthenticated"]),
