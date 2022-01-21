@@ -28,7 +28,6 @@ const actions = {
         if (response.status === 200) {
           let data = response.data;
           for (let key in data) {
-            data[key].id = key;
             commit("updateSettingsList", data[key]);
           }
         }
@@ -39,7 +38,7 @@ const actions = {
     const setting = getters.findOneSetting(payload.id)
 
     if (setting.length > 0) {
-      return axios.patch("/settings/" + payload.id + '.json', payload.data)
+      return axios.patch("/settings/" + payload.id, payload.data)
         .then(response => {
           if (response.status === 200) {
             setting[0].logo = payload.data.logo
@@ -49,7 +48,6 @@ const actions = {
             setting[0].keywords = payload.data.keywords
             setting[0].companyName = payload.data.companyName
             dispatch('alert', 'success')
-            return true
           }
         })
     }

@@ -35,18 +35,20 @@ const actions = {
 
   },
   login({commit, dispatch, state}, payload) {
-
-    let token = "jsonwebtoken"
-
-    VueCookies.set('token', token)
-
-
-    dispatch('alert','login')
-
-    setTimeout(()=>{
-      commit("setToken", token)
-      router.replace('/')
-    },2000)
+    axios.post('/users/auth', payload)
+      .then(response => {
+        if (response.data != false) {
+          let token = response.data
+          VueCookies.set('token', token)
+          dispatch('alert', 'login')
+          setTimeout(() => {
+            commit("setToken", token)
+            router.replace('/')
+          }, 2000)
+        } else {
+          dispatch('alert', 'warning')
+        }
+      })
 
 
   },

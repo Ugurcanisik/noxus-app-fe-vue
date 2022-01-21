@@ -35,7 +35,6 @@ const actions = {
         if (response.status === 200) {
           let data = response.data;
           for (let key in data) {
-            data[key].id = key;
             commit("updateUsersList", data[key]);
           }
         }
@@ -44,8 +43,8 @@ const actions = {
   saveUser({dispatch, commit, state}, payload) {
     return axios.post("/users", payload)
       .then(response => {
-        if (response.status === 200) {
-          payload.id = response.data.name;
+        if (response.status === 201) {
+          payload.id = response.data.id;
           commit("updateUsersList", payload);
           dispatch('alert', 'success')
           return true
@@ -64,7 +63,7 @@ const actions = {
     const user = getters.findOneUser(payload.id)
 
     if (user.length > 0) {
-      return axios.patch("/users/" + payload.id + '.json', payload.data)
+      return axios.patch("/users/" + payload.id, payload.data)
         .then(response => {
           if (response.status === 200) {
             user[0].name = payload.data.name
@@ -82,7 +81,7 @@ const actions = {
     const user = getters.findOneUser(payload)
 
     if (user.length > 0) {
-      return axios.delete("/users/" + payload + '.json', payload)
+      return axios.delete("/users/" + payload, payload)
         .then(response => {
           if (response.status === 200) {
             let data = state.users

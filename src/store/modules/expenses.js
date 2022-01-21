@@ -45,8 +45,10 @@ const actions = {
       .then(response => {
         if (response.status === 201) {
           payload.id = response.data.id;
-          payload.typeexpense = {name: response.data.typeexpense.name}
-          payload.staff = {name: response.data.staff.name}
+          payload.typeexpense = {id: response.data.typeexpense.id, name: response.data.typeexpense.name}
+          if (payload.staff != null) {
+            payload.staff = {id: response.data.staff.id, name: response.data.staff.name}
+          }
           commit("updateExpensesList", payload);
           dispatch('alert', 'success')
           return true
@@ -68,10 +70,14 @@ const actions = {
       return axios.patch("/expenses/" + payload.id, payload.data)
         .then(response => {
           if (response.status === 200) {
-            expense[0].typeId = payload.data.typeId
+            expense[0].typeexpense = {id: response.data.typeexpense.id, name: response.data.typeexpense.name}
             expense[0].description = payload.data.description
             expense[0].total = payload.data.total
-            expense[0].staffId = payload.data.staffId
+            if (payload.data.staff !== null) {
+              expense[0].staff = {id: response.data.staff.id, name: response.data.staff.name}
+            } else {
+              expense[0].staff = null
+            }
             expense[0].date = payload.data.date
             dispatch('alert', 'success')
             return true

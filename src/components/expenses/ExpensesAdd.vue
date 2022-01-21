@@ -156,10 +156,9 @@ export default {
       if (findType[0].text === 'Maaş') {
         this.selectStaff = false
       } else {
+        this.newExpense.staffId = null
         this.selectStaff = true
       }
-
-
     }
   },
   computed: {

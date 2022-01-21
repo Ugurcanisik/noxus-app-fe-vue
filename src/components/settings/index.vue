@@ -17,7 +17,7 @@
         <div class="form-group form-floating-label" :class="{'has-error': $v.settings.logo.$error}">
           <input
             id="logo"
-            v-model="allSettings[0].logo"
+            v-model="$v.settings.logo.$model"
             type="text" class="form-control input-border-bottom" required>
           <label for="logo" class="placeholder">Logo</label>
         </div>
@@ -64,7 +64,7 @@
 
       </div>
       <div class="modal-footer no-bd" style="margin: 0 auto">
-        <b-button variant="primary" @click="save" :disabled="$v.settings.$invalid">Kaydet</b-button>
+        <b-button variant="primary" @click="update" :disabled="$v.settings.$invalid">Kaydet</b-button>
       </div>
     </div>
 
@@ -87,35 +87,27 @@ export default {
         description: null,
         keywords: null,
         companyName: null
-      }
+      },
+      id: null
     }
   },
   methods: {
-    save() {
-      let settings = {
-        logo: this.settings.logo,
-        ico: this.settings.ico,
-        title: this.settings.title,
-        description: this.settings.description,
-        keywords: this.settings.keywords,
-        companyName: this.settings.companyName
-      }
-
-      this.$store.dispatch("updateSettings", settings)
+    update() {
+      this.$store.dispatch("updateSettings", {id: this.id, data: this.settings})
     }
   },
   computed: {
     ...mapGetters(["allSettings"]),
   },
-  watch: {
-    allSettings(payload) {
-      this.settings.logo = payload[0].logo
-      this.settings.ico = payload[0].logo
-      this.settings.title = payload[0].title
-      this.settings.description = payload[0].description
-      this.settings.keywords = payload[0].keywords
-      this.settings.companyName = payload[0].companyName
-    }
+  mounted() {
+    const settings = this.$store.getters.allSettings
+    this.settings.logo = settings[0].logo
+    this.settings.ico = settings[0].ico
+    this.settings.title = settings[0].title
+    this.settings.description = settings[0].description
+    this.settings.keywords = settings[0].keywords
+    this.settings.companyName = settings[0].companyName
+    this.id = settings[0].id
   },
   validations: {
     settings: {
