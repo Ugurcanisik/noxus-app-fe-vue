@@ -1,0 +1,146 @@
+<template>
+
+  <div>
+
+    <b-button class="btn-round ml-auto" variant="primary" @click="openModal">
+      <i class="fa fa-plus"></i>
+      Ürün Ekle
+    </b-button>
+
+
+    <b-modal ref="productAdd" title="Ürün Ekle" hide-footer>
+      <div class="modal-content">
+        <div class="modal-body">
+
+
+          <div class="form-group form-floating-label">
+            <b-form-file
+              class="form-control input-border-bottom"
+              v-model="$v.newProduct.picture.$model"
+              ref="file"
+            ></b-form-file>
+          </div>
+
+          <div class="form-group form-floating-label" :class="{'has-error': $v.newProduct.name.$error}">
+            <input
+              id="productName"
+              v-model="$v.newProduct.name.$model"
+              type="text" class="form-control input-border-bottom" required>
+            <label for="productName" class="placeholder">Ürün Adı</label>
+          </div>
+
+          <div class="form-group form-floating-label">
+            <input
+              id="prodcutDescription"
+              v-model="$v.newProduct.description.$model"
+              type="text" class="form-control input-border-bottom" required>
+            <label for="prodcutDescription" class="placeholder">Ürün Açıklaması</label>
+          </div>
+
+          <div class="form-group form-floating-label" :class="{'has-error': $v.newProduct.price.$error}">
+            <input
+              id="productPrice"
+              v-model="$v.newProduct.price.$model"
+              type="text" class="form-control input-border-bottom" required>
+            <label for="productPrice" class="placeholder">Ürün Fiyatı</label>
+          </div>
+
+          <div class="form-group form-floating-label" :class="{'has-error': $v.selected.$error}">
+            <b-form-select
+              class="form-control input-border-bottom"
+              v-model="$v.selected.$model"
+              :options="listCategory()"
+            ></b-form-select>
+          </div>
+
+        </div>
+        <div class="modal-footer no-bd" style="margin: 0 auto">
+          <b-button variant="primary" @click="save" :disabled="$v.newProduct.$invalid || $v.selected.$invalid">Kaydet
+          </b-button>
+          <b-button variant="danger" @click="closeModal">Kapat</b-button>
+        </div>
+      </div>
+    </b-modal>
+  </div>
+
+
+</template>
+<script>
+import {required} from "vuelidate/lib/validators"
+import {mapGetters} from "vuex";
+
+export default {
+  props: ['categoryId'],
+  data() {
+    return {
+      selected: null,
+      newProduct: {
+        picture: null,
+        name: null,
+        description: null,
+        price: null,
+      },
+    }
+  },
+  watch: {
+    categoryId(payload) {
+      this.selected = payload
+    }
+  },
+  methods: {
+    openModal() {
+      this.newProduct.picture = null
+      this.newProduct.name = null
+      this.newProduct.description = null
+      this.newProduct.price = null
+      this.newProduct.categoryId = null
+      this.$refs['productAdd'].show()
+    },
+    closeModal() {
+      this.$refs['productAdd'].hide()
+    },
+    save() {
+
+      let newProduct = {
+        picture: this.newProduct.picture,
+        name: this.newProduct.name,
+        description: this.newProduct.description,
+        price: this.newProduct.price,
+        category: this.selected,
+        isActive: true
+      }
+      this.$store.dispatch("saveProduct", newProduct)
+        .then(response => {
+          if (response) {
+            this.$refs['productAdd'].hide()
+          }
+        })
+    },
+    listCategory() {
+      const category = this.allCategories
+      let categoryArray = []
+
+      categoryArray.push({value: null, text: 'Ürün Kategorisi Seçiniz', disabled: true})
+
+      for (let i in category) {
+        categoryArray.push({value: category[i].id, text: category[i].name})
+      }
+
+      return categoryArray
+
+    }
+  },
+  computed: {
+    ...mapGetters(["allCategories"]),
+  },
+  validations: {
+    newProduct: {
+      picture: {},
+      name: {required},
+      price: {required},
+      description: {},
+    },
+    selected: {required}
+  }
+}
+</script>
