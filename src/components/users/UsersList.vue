@@ -108,12 +108,12 @@ export default {
   },
   data() {
     return {
-      sortBy: 'date',
+      sortBy: 'name',
       sortDesc: false,
       totalRows: 1,
       currentPage: 1,
-      perPage: 5,
-      pageOptions: [5, 10, 15, {value: 100, text: "All"}],
+      perPage: 20,
+      pageOptions: [20, 30, 50, {value: 100, text: "All"}],
       filter: null,
       fields: [
         {key: 'name', label: 'İsim', sortable: true, class: 'text-center'},
@@ -170,7 +170,14 @@ export default {
     ...mapGetters(["allUsers"]),
   },
   mounted() {
-    this.totalRows = this.allUsers.length
+    setTimeout(() => {
+      this.totalRows = this.allUsers.length
+    }, 300)
   },
+  watch: {
+    allCiro() {
+      this.totalRows = this.allUsers.length
+    }
+  }
 }
 </script>

@@ -9,6 +9,7 @@ import expenses from "./modules/expenses";
 import settings from "./modules/settings";
 import users from './modules/users'
 import auth from './modules/auth'
+import dashboard from './modules/dashboard'
 
 import iziToast from "izitoast";
 import 'izitoast/dist/css/iziToast.min.css';
@@ -66,6 +67,7 @@ export const store = new Vuex.Store({
     expenses,
     settings,
     users,
-    auth
+    auth,
+    dashboard
   }
 });

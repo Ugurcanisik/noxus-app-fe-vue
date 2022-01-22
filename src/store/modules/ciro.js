@@ -47,6 +47,7 @@ const actions = {
           payload.id = response.data.id;
           commit("updateCiroList", payload);
           dispatch('alert', 'success')
+          dispatch('initDashboardApp')
           return true
         } else {
           dispatch('alert', 'error')
@@ -69,6 +70,7 @@ const actions = {
             ciro[0].total = payload.data.total
             ciro[0].date = payload.data.date
             dispatch('alert', 'success')
+            dispatch('initDashboardApp')
             return true
           }
         })
@@ -90,6 +92,7 @@ const actions = {
                 state.ciro.splice(index, 1)
               }
             }
+            dispatch('initDashboardApp')
           }
         })
     }

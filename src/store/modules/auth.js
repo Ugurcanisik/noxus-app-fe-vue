@@ -4,12 +4,16 @@ import {router} from '../../router/router'
 
 
 const state = {
-  token: ""
+  token: "",
+  user: null
 }
 
 const getters = {
   isAuthenticated(state) {
     return state.token !== ""
+  },
+  getUser(state) {
+    return state.user
   }
 }
 
@@ -19,15 +23,28 @@ const mutations = {
   },
   clearToken(state) {
     state.token = ""
+  },
+  setUser(state, payload) {
+    state.user = payload
   }
 }
 
 const actions = {
-  initAuth({commit}) {
-
+  initAuth({commit, dispatch, state}) {
     let token = VueCookies.get('token')
     if (token) {
-      commit("setToken", token)
+      return axios.get('/auth')
+        .then(response => {
+          if (response.status == 200) {
+            if (response.data != false) {
+              commit("setToken", token)
+              commit('setUser', response.data)
+              return
+            } else {
+              commit("setToken", "")
+            }
+          }
+        })
     } else {
       commit("setToken", "")
     }
@@ -35,7 +52,7 @@ const actions = {
 
   },
   login({commit, dispatch, state}, payload) {
-    axios.post('/users/auth', payload)
+    axios.post('/auth', payload)
       .then(response => {
         if (response.data != false) {
           let token = response.data
@@ -43,7 +60,7 @@ const actions = {
           dispatch('alert', 'login')
           setTimeout(() => {
             commit("setToken", token)
-            router.replace('/')
+            router.replace('/dashboard')
           }, 2000)
         } else {
           dispatch('alert', 'warning')

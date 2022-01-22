@@ -51,6 +51,7 @@ const actions = {
           }
           commit("updateExpensesList", payload);
           dispatch('alert', 'success')
+          dispatch('initDashboardApp')
           return true
         } else {
           dispatch('alert', 'error')
@@ -80,6 +81,7 @@ const actions = {
             }
             expense[0].date = payload.data.date
             dispatch('alert', 'success')
+            dispatch('initDashboardApp')
             return true
           }
         })
@@ -101,6 +103,7 @@ const actions = {
                 state.expenses.splice(index, 1)
               }
             }
+            dispatch('initDashboardApp')
           }
         })
     }

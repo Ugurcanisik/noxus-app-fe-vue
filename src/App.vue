@@ -1,10 +1,11 @@
 <template>
   <div>
+    <Auth v-if="auth()"></Auth>
 
-    <div class="wrapper">
+    <div class="wrapper" v-else>
 
-      <Header :style="display()"></Header>
-      <Sidebar :style="display()"></Sidebar>
+      <Header></Header>
+      <Sidebar></Sidebar>
 
       <div class="main-panel">
         <div class="content">
@@ -14,14 +15,12 @@
           </transition>
 
         </div>
-        <Footer :style="display()"></Footer>
+        <Footer></Footer>
       </div>
 
     </div>
 
-
   </div>
-
 
 </template>
 
@@ -29,21 +28,25 @@
 import Header from './views/include/Header'
 import Sidebar from './views/include/Sidebar'
 import Footer from './views/include/Footer'
+import Auth from './views/auth'
 
 import {mapGetters} from "vuex";
+import {store} from "./store/store";
 
 export default {
   components: {
     Header,
     Sidebar,
-    Footer
+    Footer,
+    Auth
   },
   methods: {
-    display() {
-      if (this.isAuthenticated) {
-        return {'display': 'inline'}
+    auth() {
+      const path = this.$route.path
+      if (path == '/auth') {
+        return true
       } else {
-        return {'display': 'none'}
+        return false
       }
     },
     initApps() {
@@ -56,13 +59,13 @@ export default {
       this.$store.dispatch("initExpensesApp");
       this.$store.dispatch("initSettingsApp");
       this.$store.dispatch("initUsersApp");
+      this.$store.dispatch('initDashboardApp')
     }
   },
   mounted() {
     if (this.$store.getters.isAuthenticated !== false) {
       this.initApps()
     }
-
   },
   watch: {
     isAuthenticated(value) {

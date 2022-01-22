@@ -109,11 +109,11 @@ export default {
   data() {
     return {
       sortBy: 'date',
-      sortDesc: false,
+      sortDesc: true,
       totalRows: 1,
       currentPage: 1,
-      perPage: 5,
-      pageOptions: [5, 10, 15, {value: 100, text: "All"}],
+      perPage: 30,
+      pageOptions: [30, 40, 50, {value: 100, text: "All"}],
       filter: null,
       fields: [
         {key: 'date', label: 'Tarih', sortable: true, class: 'text-center'},
@@ -170,7 +170,14 @@ export default {
     ...mapGetters(["allExpenses"]),
   },
   mounted() {
-    this.totalRows = this.allExpenses.length
+    setTimeout(() => {
+      this.totalRows = this.allExpenses.length
+    }, 300)
   },
+  watch: {
+    allCiro() {
+      this.totalRows = this.allExpenses.length
+    }
+  }
 }
 </script>

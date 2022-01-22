@@ -121,7 +121,7 @@ const routes = [
     component: auth,
     beforeEnter(to, from, next) {
       if (store.getters.isAuthenticated) {
-        next('/')
+        next('/dashboard')
       } else {
         next()
       }

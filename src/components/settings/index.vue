@@ -100,14 +100,16 @@ export default {
     ...mapGetters(["allSettings"]),
   },
   mounted() {
-    const settings = this.$store.getters.allSettings
-    this.settings.logo = settings[0].logo
-    this.settings.ico = settings[0].ico
-    this.settings.title = settings[0].title
-    this.settings.description = settings[0].description
-    this.settings.keywords = settings[0].keywords
-    this.settings.companyName = settings[0].companyName
-    this.id = settings[0].id
+    setTimeout(() => {
+      const settings = this.$store.getters.allSettings
+      this.settings.logo = settings[0].logo
+      this.settings.ico = settings[0].ico
+      this.settings.title = settings[0].title
+      this.settings.description = settings[0].description
+      this.settings.keywords = settings[0].keywords
+      this.settings.companyName = settings[0].companyName
+      this.id = settings[0].id
+    }, 300)
   },
   validations: {
     settings: {

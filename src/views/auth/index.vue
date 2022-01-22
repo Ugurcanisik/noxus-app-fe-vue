@@ -1,7 +1,7 @@
 <template>
-  <div class="auth">
+  <div style="margin: 110px auto; width: 500px">
 
-    <div style="width: 500px" class="form-group form-floating-label" :class="{'has-error': $v.user.userName.$error}">
+    <div class="form-group form-floating-label" :class="{'has-error': $v.user.userName.$error}">
       <input
         id="userName"
         v-model="$v.user.userName.$model"
@@ -11,20 +11,20 @@
 
     <br>
 
-    <div style="width: 500px" class="form-group form-floating-label" :class="{'has-error': $v.user.password.$error}">
+    <div class="form-group form-floating-label" :class="{'has-error': $v.user.password.$error}">
       <input
         id="password"
         v-model="$v.user.password.$model"
         type="text" class="form-control input-border-bottom" required>
       <label for="password" class="placeholder">Parola Adı</label>
     </div>
-      <b-button
-        class="login"
-        variant="primary"
-        @click="login"
-        :disabled="$v.user.$invalid"
-      >Giriş Yap
-      </b-button>
+    <b-button
+      class="login"
+      variant="primary"
+      @click="login"
+      :disabled="$v.user.$invalid"
+    >Giriş Yap
+    </b-button>
   </div>
 
 
@@ -59,12 +59,7 @@ export default {
 }
 </script>
 <style scoped>
-.auth {
-  position: relative;
-  left: 150px;
-  top: 50px;
-}
-.login{
+.login {
   margin-top: 25px;
   position: relative;
   left: 200px;

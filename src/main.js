@@ -30,8 +30,17 @@ import 'bootstrap-vue/dist/bootstrap-vue.css'
 Vue.use(BootstrapVue)
 
 router.beforeEach((to, from, next) => {
-  store.dispatch("initAuth");
-  next()
+
+  store.dispatch("initAuth")
+    .then(() => {
+      next()
+    })
+
+
+})
+
+Vue.filter("currency", (value) => {
+  return parseFloat(value).toLocaleString(undefined,) + " TL"
 })
 
 
