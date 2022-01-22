@@ -12,14 +12,13 @@
       <div class="modal-content">
         <div class="modal-body">
 
-
           <div class="form-group form-floating-label">
             <b-form-file
               class="form-control input-border-bottom"
-              v-model="$v.newProduct.picture.$model"
-              ref="file"
+              v-model="newProduct.picture"
             ></b-form-file>
           </div>
+
 
           <div class="form-group form-floating-label" :class="{'has-error': $v.newProduct.name.$error}">
             <input
@@ -68,6 +67,7 @@
 <script>
 import {required} from "vuelidate/lib/validators"
 import {mapGetters} from "vuex";
+import axios from "axios";
 
 export default {
   props: ['categoryId'],
@@ -88,6 +88,22 @@ export default {
     }
   },
   methods: {
+    uploadFile(event) {
+      const file = event.target.files[0]
+      let formData = new FormData()
+
+      formData.append('picture', file)
+
+      axios.post('products/pic', formData, {
+        async: false,
+        cache: false,
+        contentType: false,
+        processData: false,
+      })
+        .then(response => {
+          console.log(response)
+        })
+    },
     openModal() {
       this.newProduct.picture = null
       this.newProduct.name = null
@@ -107,7 +123,6 @@ export default {
         description: this.newProduct.description,
         price: this.newProduct.price,
         category: this.selected,
-        isActive: true
       }
       this.$store.dispatch("saveProduct", newProduct)
         .then(response => {
@@ -135,7 +150,6 @@ export default {
   },
   validations: {
     newProduct: {
-      picture: {},
       name: {required},
       price: {required},
       description: {},

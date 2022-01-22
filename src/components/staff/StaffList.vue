@@ -116,7 +116,7 @@ export default {
   },
   data() {
     return {
-      sortBy: 'startDate',
+      sortBy: 'name',
       sortDesc: false,
       totalRows: 1,
       currentPage: 1,

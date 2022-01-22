@@ -43,21 +43,31 @@ const actions = {
   },
   saveProduct({dispatch, commit, state}, payload) {
 
-    if (payload.picture === null) {
-      return axios.post("/products", payload)
-        .then(response => {
-          if (response.status === 201) {
-            payload.id = response.data.id;
-            commit("updateProductsList", payload);
-            dispatch('alert', 'success')
-            return true
-          } else {
-            dispatch('alert', 'error')
-          }
-        })
-    } else {
-      //resim varsa
-    }
+    let formData = new FormData()
+    formData.append('picture', payload.picture)
+    formData.append('name', payload.name)
+    formData.append('description', payload.description)
+    formData.append('price', payload.price)
+    formData.append('category', payload.category)
+
+    return axios.post('/products', formData, {
+      async: false,
+      cache: false,
+      contentType: false,
+      processData: false,
+    })
+      .then(response => {
+        if (response.status === 201) {
+          payload.id = response.data.id;
+          payload.isActive = true
+          commit("updateProductsList", payload);
+          dispatch('alert', 'success')
+          return true
+        } else {
+          dispatch('alert', 'error')
+        }
+      })
+
 
   },
   findProduct({dispatch, commit, state}, payload) {
@@ -70,22 +80,31 @@ const actions = {
     const product = getters.findOneProduct(payload.id)
 
     if (product.length > 0) {
-      if (payload.data.picture == null) {
-        return axios.patch("/products/" + payload.id, payload.data)
-          .then(response => {
-            if (response.status === 200) {
-              product[0].picture = payload.data.picture
-              product[0].name = payload.data.name
-              product[0].description = payload.data.description
-              product[0].price = payload.data.price
-              product[0].categoryId = payload.data.categoryId
-              dispatch('alert', 'success')
-              return true
-            }
-          })
-      } else {
-        //resim varsa
-      }
+
+      let formData = new FormData()
+      formData.append('picture', payload.data.picture)
+      formData.append('name', payload.data.name)
+      formData.append('description', payload.data.description)
+      formData.append('price', payload.data.price)
+      formData.append('category', payload.data.category)
+
+      return axios.patch("/products/" + payload.id, formData, {
+        async: false,
+        cache: false,
+        contentType: false,
+        processData: false,
+      })
+        .then(response => {
+          if (response.status === 200) {
+            product[0].name = payload.data.name
+            product[0].description = payload.data.description
+            product[0].price = payload.data.price
+            product[0].categoryId = payload.data.category
+            dispatch('alert', 'success')
+            return true
+          }
+        })
+
 
     }
 

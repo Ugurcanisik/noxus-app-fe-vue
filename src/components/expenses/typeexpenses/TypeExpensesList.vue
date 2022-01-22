@@ -19,6 +19,7 @@
             :sort-desc.sync="sortDesc"
             hover
             head-variant="light"
+            sticky-header
           >
 
             <template #cell(actions)="row">
