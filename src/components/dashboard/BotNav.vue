@@ -157,7 +157,7 @@ export default {
     setTimeout(() => {
       this.chartCiro()
       this.charExpense()
-    }, 300)
+    }, 500)
   },
   computed: {
     ...mapGetters(["allDashboard"]),
