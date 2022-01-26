@@ -34,7 +34,9 @@ const actions = {
       .then(response => {
         if (response.status === 200) {
           let data = response.data;
+          state.expenses = []
           for (let key in data) {
+            data[key].total = parseFloat(data[key].total).toLocaleString() + ' TL'
             commit("updateExpensesList", data[key]);
           }
         }

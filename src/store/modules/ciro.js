@@ -33,8 +33,10 @@ const actions = {
     axios.get('/ciro',)
       .then(response => {
         if (response.status === 200) {
+          state.ciro = []
           let data = response.data;
           for (let key in data) {
+            data[key].total = parseFloat(data[key].total).toLocaleString() + ' TL'
             commit("updateCiroList", data[key]);
           }
         }

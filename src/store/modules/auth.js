@@ -14,6 +14,14 @@ const getters = {
   },
   getUser(state) {
     return state.user
+  },
+  getToken(state) {
+    const token = state.token !== ""
+    if (token) {
+      return state.token
+    } else {
+      return 'token'
+    }
   }
 }
 
@@ -31,48 +39,40 @@ const mutations = {
 
 const actions = {
   initAuth({commit, dispatch, state}) {
-    let token = VueCookies.get('token')
+    let token = localStorage.getItem("token")
     if (token) {
-      return axios.get('/auth')
+      return axios.get('/auth/' + token)
         .then(response => {
-          if (response.status == 200) {
-            if (response.data != false) {
-              commit("setToken", token)
-              commit('setUser', response.data)
-              return
-            } else {
-              commit("setToken", "")
-            }
+          if (response.data) {
+            commit("setToken", token)
+            //router.push("/")
+          } else {
+            dispatch('logout')
+            return false
           }
         })
     } else {
-      commit("setToken", "")
+      return false
     }
-
-
   },
   login({commit, dispatch, state}, payload) {
     axios.post('/auth', payload)
       .then(response => {
         if (response.data != false) {
           let token = response.data
-          VueCookies.set('token', token)
-          dispatch('alert', 'login')
-          setTimeout(() => {
-            commit("setToken", token)
-            router.replace('/dashboard')
-          }, 2000)
+          localStorage.setItem("token", token)
+          commit("setToken", token)
+          router.push("/")
+          //  router.replace('/')
         } else {
           dispatch('alert', 'warning')
         }
       })
-
-
   },
-  logout({commit}) {
-    VueCookies.remove('token')
+  logout({commit, dispatch, state}) {
     commit("clearToken")
-    router.push("/auth")
+    localStorage.removeItem("token")
+    router.replace("/auth")
   },
 }
 

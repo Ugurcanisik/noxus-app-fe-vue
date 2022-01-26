@@ -20,13 +20,6 @@ const routes = [
   {
     path: "/",
     redirect: '/dashboard',
-    beforeEnter(to, from, next) {
-      if (store.getters.isAuthenticated) {
-        next()
-      } else {
-        next('/auth')
-      }
-    }
   },
   {
     path: "/dashboard",

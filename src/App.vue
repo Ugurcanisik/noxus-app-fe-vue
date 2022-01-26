@@ -31,7 +31,6 @@ import Footer from './views/include/Footer'
 import Auth from './views/auth'
 
 import {mapGetters} from "vuex";
-import {store} from "./store/store";
 
 export default {
   components: {
@@ -62,10 +61,8 @@ export default {
       this.$store.dispatch('initDashboardApp')
     }
   },
-  mounted() {
-    if (this.$store.getters.isAuthenticated !== false) {
-      this.initApps()
-    }
+  computed: {
+    ...mapGetters(["isAuthenticated"]),
   },
   watch: {
     isAuthenticated(value) {
@@ -73,10 +70,7 @@ export default {
         this.initApps()
       }
     }
-  },
-  computed: {
-    ...mapGetters(["isAuthenticated"]),
-  },
+  }
 }
 </script>
 

@@ -24,7 +24,7 @@
           <input
             v-model="$v.updateExpense.total.$model"
             id="expenseTotal"
-            type="number" class="form-control input-border-bottom" required>
+            type="text" class="form-control input-border-bottom" required>
           <label for="expenseTotal" class="placeholder">Toplam</label>
         </div>
 
