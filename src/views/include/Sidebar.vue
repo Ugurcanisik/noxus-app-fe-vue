@@ -11,7 +11,7 @@
             <a data-toggle="collapse" href="" aria-expanded="true">
 								<span>
 									{{ userName }}
-									<span class="user-level">Yetki</span>
+									<span class="user-level">Yetki: Admin</span>
 								</span>
             </a>
             <div class="clearfix"></div>
