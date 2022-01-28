@@ -107,6 +107,7 @@ export default {
       this.$refs['expenseAdd'].hide()
     },
     save() {
+      this.$store.dispatch('loading', true)
       let newExpense = {
         typeexpense: this.newExpense.typeId,
         description: this.newExpense.description,
@@ -114,11 +115,14 @@ export default {
         staff: this.newExpense.staffId,
         date: this.newExpense.date
       }
-
       this.$store.dispatch("saveExpense", newExpense)
         .then(response => {
           if (response) {
-            this.$refs['expenseAdd'].hide()
+            setTimeout(() => {
+              this.$refs['expenseAdd'].hide()
+              this.$store.dispatch('loading', false)
+              this.$store.dispatch('alert', 'success')
+            }, 1000)
           }
         })
     },

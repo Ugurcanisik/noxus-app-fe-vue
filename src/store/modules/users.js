@@ -46,7 +46,6 @@ const actions = {
         if (response.status === 201) {
           payload.id = response.data.id;
           commit("updateUsersList", payload);
-          dispatch('alert', 'success')
           return true
         } else {
           dispatch('alert', 'error')
@@ -69,7 +68,6 @@ const actions = {
             user[0].name = payload.data.name
             user[0].lastName = payload.data.lastName
             user[0].userName = payload.data.userName
-            dispatch('alert', 'success')
             return true
           }
         })

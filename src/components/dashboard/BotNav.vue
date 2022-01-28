@@ -18,7 +18,7 @@
               </div>
               <div class="col-md-8">
                 <div id="chart-container">
-                  <canvas id="totalIncomeChart"></canvas>
+                  <canvas ref="chartCiro" id="totalIncomeChart"></canvas>
                 </div>
               </div>
             </div>
@@ -42,7 +42,7 @@
               </div>
               <div class="col-md-8">
                 <div id="chart-container2">
-                  <canvas id="totalIncomeChart2"></canvas>
+                  <canvas ref="chartExpense" id="totalIncomeChart2"></canvas>
                 </div>
               </div>
             </div>
@@ -88,8 +88,7 @@ export default {
       for (const i in ciro.ciro.chart.month) {
         monthName.push(this.month(ciro.ciro.chart.month[i]))
       }
-      let totalIncomeChart = document.getElementById('totalIncomeChart').getContext('2d');
-      let mytotalIncomeChart = new Chart(totalIncomeChart, {
+      let mytotalIncomeChart = new Chart(this.$refs.chartCiro.id, {
         type: 'bar',
         data: {
           labels: monthName,
@@ -123,8 +122,7 @@ export default {
       for (const i in ciro.expense.chart.month) {
         monthName.push(this.month(ciro.expense.chart.month[i]))
       }
-      let totalIncomeChart = document.getElementById('totalIncomeChart2').getContext('2d');
-      let mytotalIncomeChart = new Chart(totalIncomeChart, {
+      let mytotalIncomeChart = new Chart(this.$refs.chartExpense.id, {
         type: 'bar',
         data: {
           labels: monthName,
@@ -153,14 +151,20 @@ export default {
       });
     },
   },
-  mounted() {
-    setTimeout(() => {
-      this.chartCiro()
-      this.charExpense()
-    }, 500)
-  },
   computed: {
     ...mapGetters(["allDashboard"]),
+  },
+  created() {
+    if (this.allDashboard != null) {
+      this.ciroMax = this.allDashboard.ciro.max,
+        this.ciroTotal = this.allDashboard.ciro.total,
+        this.expenseMonth = this.allDashboard.expense.month,
+        this.expenseTotal = this.allDashboard.expense.total
+      setTimeout(() => {
+        this.chartCiro()
+        this.charExpense()
+      }, 500)
+    }
   },
   watch: {
     allDashboard(payload) {
@@ -168,6 +172,10 @@ export default {
         this.ciroTotal = payload.ciro.total,
         this.expenseMonth = payload.expense.month,
         this.expenseTotal = payload.expense.total
+      setTimeout(() => {
+        this.chartCiro()
+        this.charExpense()
+      }, 2000)
     }
   }
 }

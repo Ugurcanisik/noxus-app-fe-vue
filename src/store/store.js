@@ -18,9 +18,19 @@ import 'izitoast/dist/css/iziToast.min.css';
 Vue.use(Vuex);
 
 export const store = new Vuex.Store({
-  state: {},
-  getters: {},
-  mutations: {},
+  state: {
+    loading: null
+  },
+  getters: {
+    getLoading(state) {
+      return state.loading;
+    },
+  },
+  mutations: {
+    updateLoading(state, payload) {
+      state.loading = payload;
+    },
+  },
   actions: {
     alert({dispatch, commit, state}, type) {
       switch (type) {
@@ -56,6 +66,9 @@ export const store = new Vuex.Store({
           });
           break
       }
+    },
+    loading({dispatch, commit, state}, payload) {
+      commit("updateLoading", payload);
     }
   },
   modules: {

@@ -11,7 +11,8 @@ Vue.use(datePicker)
 
 import axios from "axios";
 
-axios.defaults.baseURL = "http://localhost:8081"
+axios.defaults.baseURL = "https://noxus-app-be-y4g5lbddia-ez.a.run.app/"
+//axios.defaults.baseURL = "http://localhost:8081/"
 //axios.defaults.withCredentials = true;
 //axios.defaults.headers.token = this.$store.getters.isAuthenticated()
 //axios.defaults.headers.common['token'] = store.getters.getToken;

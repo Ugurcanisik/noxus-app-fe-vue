@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const state = {
-  dash: {},
+  dash: null,
 }
 
 const getters = {
@@ -20,8 +20,10 @@ const actions = {
   initDashboardApp({commit}) {
     axios.get('/dashboard',)
       .then(response => {
-        console.log(response)
-        commit("updateDashboard", response.data);
+        if (response.status === 200) {
+          state.dash = null
+          commit("updateDashboard", response.data);
+        }
       })
   },
 }

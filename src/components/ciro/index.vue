@@ -16,12 +16,13 @@
 <script>
 import CiroList from "./CiroList";
 import CiroUpdate from "./CiroUpdate";
+import {mapGetters} from "vuex";
 
 export default {
   components: {
     CiroList,
     CiroUpdate
-  }
+  },
 }
 </script>
 

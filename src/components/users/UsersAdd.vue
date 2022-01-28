@@ -80,6 +80,7 @@ export default {
       this.$refs['userAdd'].hide()
     },
     save() {
+      this.$store.dispatch('loading', true)
       let newUser = {
         name: this.newUser.name,
         lastName: this.newUser.lastName,
@@ -90,7 +91,11 @@ export default {
       this.$store.dispatch("saveUser", newUser)
         .then(response => {
           if (response) {
-            this.$refs['userAdd'].hide()
+            setTimeout(() => {
+              this.$refs['userAdd'].hide()
+              this.$store.dispatch('loading', false)
+              this.$store.dispatch('alert', 'success')
+            }, 1000)
           }
         })
     }

@@ -96,9 +96,6 @@ export default {
       this.$store.dispatch("updateSettings", {id: this.id, data: this.settings})
     }
   },
-  computed: {
-    ...mapGetters(["allSettings"]),
-  },
   mounted() {
     setTimeout(() => {
       const settings = this.$store.getters.allSettings

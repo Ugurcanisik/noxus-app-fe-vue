@@ -116,7 +116,7 @@ export default {
       this.$refs['productAdd'].hide()
     },
     save() {
-
+      this.$store.dispatch('loading', true)
       let newProduct = {
         picture: this.newProduct.picture,
         name: this.newProduct.name,
@@ -127,7 +127,11 @@ export default {
       this.$store.dispatch("saveProduct", newProduct)
         .then(response => {
           if (response) {
-            this.$refs['productAdd'].hide()
+            setTimeout(() => {
+              this.$refs['productAdd'].hide()
+              this.$store.dispatch('loading', false)
+              this.$store.dispatch('alert', 'success')
+            }, 1000)
           }
         })
     },

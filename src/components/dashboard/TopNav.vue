@@ -93,6 +93,14 @@ export default {
   computed: {
     ...mapGetters(["allDashboard"]),
   },
+  created() {
+    if (this.allDashboard != null) {
+      this.ciroYesterday = this.allDashboard.ciro.yesterday,
+        this.ciroAverage = this.allDashboard.ciro.average,
+        this.ciroMonth = this.allDashboard.ciro.month,
+        this.expenseToday = this.allDashboard.expense.today
+    }
+  },
   watch: {
     allDashboard(payload) {
       this.ciroYesterday = payload.ciro.yesterday,

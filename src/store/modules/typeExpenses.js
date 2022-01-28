@@ -46,7 +46,6 @@ const actions = {
         if (response.status === 201) {
           payload.id = response.data.id;
           commit("updateTypesList", payload);
-          dispatch('alert', 'success')
           return true
         } else {
           dispatch('alert', 'error')
@@ -67,7 +66,6 @@ const actions = {
         .then(response => {
           if (response.status === 200) {
             type[0].name = payload.data.name
-            dispatch('alert', 'success')
             return true
           }
         })

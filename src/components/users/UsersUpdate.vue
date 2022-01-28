@@ -56,6 +56,7 @@ export default {
       this.$refs['updateUser'].hide()
     },
     update() {
+      this.$store.dispatch('loading', true)
       const updateUser = {
         id: this.id,
         data: {
@@ -67,7 +68,11 @@ export default {
       this.$store.dispatch("updateUser", updateUser)
         .then(response => {
           if (response) {
-            this.$refs['updateUser'].hide()
+            setTimeout(() => {
+              this.$refs['updateUser'].hide()
+              this.$store.dispatch('loading', false)
+              this.$store.dispatch('alert', 'success')
+            }, 1000)
           }
         })
     }

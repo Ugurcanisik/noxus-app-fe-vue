@@ -50,6 +50,7 @@ export default {
       this.$refs['categoryAdd'].hide()
     },
     save() {
+      this.$store.dispatch('loading', true)
       let newCategory = {
         name: this.name,
         isActive: true
@@ -57,7 +58,11 @@ export default {
       this.$store.dispatch("saveCategory", newCategory)
         .then(response => {
           if (response) {
-            this.$refs['categoryAdd'].hide()
+            setTimeout(() => {
+              this.$refs['categoryAdd'].hide()
+              this.$store.dispatch('loading', false)
+              this.$store.dispatch('alert', 'success')
+            }, 1000)
           }
         })
     }

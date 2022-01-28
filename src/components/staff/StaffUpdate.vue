@@ -61,18 +61,23 @@ export default {
       this.$refs['updateStaff'].hide()
     },
     update() {
-      const updateStaff= {
+      this.$store.dispatch('loading', true)
+      const updateStaff = {
         id: this.id,
         data: {
-          name:this.updateStaff.name,
-          startDate:this.updateStaff.startDate,
-          endDate:this.updateStaff.endDate
+          name: this.updateStaff.name,
+          startDate: this.updateStaff.startDate,
+          endDate: this.updateStaff.endDate
         }
       }
       this.$store.dispatch("updateStaff", updateStaff)
         .then(response => {
           if (response) {
-            this.$refs['updateStaff'].hide()
+            setTimeout(() => {
+              this.$refs['updateStaff'].hide()
+              this.$store.dispatch('loading', false)
+              this.$store.dispatch('alert', 'success')
+            }, 1000)
           }
         })
     }

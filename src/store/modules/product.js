@@ -61,7 +61,6 @@ const actions = {
           payload.id = response.data.id;
           payload.isActive = true
           commit("updateProductsList", payload);
-          dispatch('alert', 'success')
           return true
         } else {
           dispatch('alert', 'error')
@@ -100,7 +99,6 @@ const actions = {
             product[0].description = payload.data.description
             product[0].price = payload.data.price
             product[0].categoryId = payload.data.category
-            dispatch('alert', 'success')
             return true
           }
         })

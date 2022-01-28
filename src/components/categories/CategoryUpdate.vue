@@ -36,6 +36,7 @@ export default {
       this.$refs['updateCategory'].hide()
     },
     update() {
+      this.$store.dispatch('loading', true)
       const updateCategory = {
         id: this.id,
         data: {
@@ -45,7 +46,11 @@ export default {
       this.$store.dispatch("updateCategory", updateCategory)
         .then(response => {
           if (response) {
-            this.$refs['updateCategory'].hide()
+            setTimeout(() => {
+              this.$refs['updateCategory'].hide()
+              this.$store.dispatch('loading', false)
+              this.$store.dispatch('alert', 'success')
+            }, 1000)
           }
         })
     }

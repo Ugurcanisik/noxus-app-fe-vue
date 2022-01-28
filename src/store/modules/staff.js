@@ -46,7 +46,6 @@ const actions = {
         if (response.status === 201) {
           payload.id = response.data.id;
           commit("updateStaffList", payload);
-          dispatch('alert', 'success')
           return true
         } else {
           dispatch('alert', 'error')
@@ -69,7 +68,6 @@ const actions = {
             staff[0].name = payload.data.name
             staff[0].startDate = payload.data.startDate
             staff[0].endDate = payload.data.endDate
-            dispatch('alert', 'success')
             return true
           }
         })

@@ -34,7 +34,6 @@ const actions = {
       .then(response => {
         if (response.status === 200) {
           let data = response.data;
-          state.expenses = []
           for (let key in data) {
             data[key].total = parseFloat(data[key].total).toLocaleString() + ' TL'
             commit("updateExpensesList", data[key]);
@@ -52,7 +51,6 @@ const actions = {
             payload.staff = {id: response.data.staff.id, name: response.data.staff.name}
           }
           commit("updateExpensesList", payload);
-          dispatch('alert', 'success')
           dispatch('initDashboardApp')
           return true
         } else {
@@ -82,7 +80,6 @@ const actions = {
               expense[0].staff = null
             }
             expense[0].date = payload.data.date
-            dispatch('alert', 'success')
             dispatch('initDashboardApp')
             return true
           }

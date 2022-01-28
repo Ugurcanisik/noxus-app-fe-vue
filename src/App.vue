@@ -7,6 +7,14 @@
       <Header></Header>
       <Sidebar></Sidebar>
 
+      <div class="loading" :style="isLoading">
+        <div class="lds-ripple">
+          <div></div>
+          <div></div>
+        </div>
+      </div>
+
+
       <div class="main-panel">
         <div class="content">
 
@@ -39,6 +47,11 @@ export default {
     Footer,
     Auth
   },
+  data() {
+    return {
+      isLoad: false
+    }
+  },
   methods: {
     auth() {
       const path = this.$route.path
@@ -50,6 +63,7 @@ export default {
     },
     initApps() {
       // this.$store.dispatch("initAuth");
+      this.$store.dispatch('initDashboardApp')
       this.$store.dispatch("initCategoryApp");
       this.$store.dispatch("initCiroApp");
       //this.$store.dispatch("initProductsApp");
@@ -57,17 +71,38 @@ export default {
       this.$store.dispatch("initTypesApp");
       this.$store.dispatch("initExpensesApp");
       this.$store.dispatch("initSettingsApp");
-      this.$store.dispatch("initUsersApp");
-      this.$store.dispatch('initDashboardApp')
+      this.$store.dispatch("initUsersApp")
     }
   },
   computed: {
     ...mapGetters(["isAuthenticated"]),
+    ...mapGetters(['getLoading']),
+    ...mapGetters(['allDashboard']),
+    isLoading() {
+      if (this.isLoad) {
+        return {
+          display: "block"
+        }
+      } else {
+        return {
+          display: "none"
+        }
+      }
+    },
   },
   watch: {
     isAuthenticated(value) {
       if (value !== false) {
+        this.isLoad = true
         this.initApps()
+      }
+    },
+    getLoading(value) {
+      this.isLoad = value
+    },
+    allDashboard(n) {
+      if (n !== null) {
+        setTimeout(()=>{this.isLoad = false},500)
       }
     }
   }

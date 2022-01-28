@@ -22,8 +22,5 @@ export default {
     TopNav,
     BotNav
   },
-  mounted() {
-    this.$store.dispatch('initDashboardApp')
-  }
 }
 </script>

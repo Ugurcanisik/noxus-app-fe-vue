@@ -1,7 +1,6 @@
 <template>
 
   <div>
-
     <b-button class="btn-round ml-auto" variant="primary" @click="openModal">
       <i class="fa fa-plus"></i>
       Gelir Ekle
@@ -63,6 +62,7 @@ export default {
       this.$refs['ciroAdd'].hide()
     },
     save() {
+      this.$store.dispatch('loading', true)
       let newCiro = {
         total: this.newCiro.total,
         date: this.newCiro.date,
@@ -70,7 +70,11 @@ export default {
       this.$store.dispatch("saveCiro", newCiro)
         .then(response => {
           if (response) {
-            this.$refs['ciroAdd'].hide()
+            setTimeout(() => {
+              this.$refs['ciroAdd'].hide()
+              this.$store.dispatch('loading', false)
+              this.$store.dispatch('alert', 'success')
+            }, 1000)
           }
         })
     }

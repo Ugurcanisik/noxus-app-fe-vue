@@ -33,7 +33,6 @@ const actions = {
     axios.get('/ciro',)
       .then(response => {
         if (response.status === 200) {
-          state.ciro = []
           let data = response.data;
           for (let key in data) {
             data[key].total = parseFloat(data[key].total).toLocaleString() + ' TL'
@@ -48,7 +47,6 @@ const actions = {
         if (response.status === 201) {
           payload.id = response.data.id;
           commit("updateCiroList", payload);
-          dispatch('alert', 'success')
           dispatch('initDashboardApp')
           return true
         } else {
@@ -71,7 +69,6 @@ const actions = {
           if (response.status === 200) {
             ciro[0].total = payload.data.total
             ciro[0].date = payload.data.date
-            dispatch('alert', 'success')
             dispatch('initDashboardApp')
             return true
           }

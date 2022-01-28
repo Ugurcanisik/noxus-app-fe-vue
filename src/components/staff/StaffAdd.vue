@@ -62,6 +62,7 @@ export default {
       this.$refs['staffAdd'].hide()
     },
     save() {
+      this.$store.dispatch('loading', true)
       let newStaff = {
         name: this.newStaff.name,
         startDate: this.newStaff.startDate,
@@ -70,7 +71,11 @@ export default {
       this.$store.dispatch("saveStaff", newStaff)
         .then(response => {
           if (response) {
-            this.$refs['staffAdd'].hide()
+            setTimeout(() => {
+              this.$refs['staffAdd'].hide()
+              this.$store.dispatch('loading', false)
+              this.$store.dispatch('alert', 'success')
+            }, 1000)
           }
         })
     }

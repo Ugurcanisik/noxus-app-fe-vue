@@ -59,11 +59,21 @@ const actions = {
     axios.post('/auth', payload)
       .then(response => {
         if (response.data != false) {
+          let timer = 3000
           let token = response.data
           localStorage.setItem("token", token)
           commit("setToken", token)
-          router.push("/")
-          //  router.replace('/')
+          swal({
+            text: "Giriş Başarılı",
+            icon: "success",
+            button: false,
+            timer: timer,
+            closeOnClickOutside: false,
+          });
+          setTimeout(() => {
+            router.push("/")
+            //  router.replace('/')
+          }, timer)
         } else {
           dispatch('alert', 'warning')
         }

@@ -45,13 +45,18 @@ export default {
       this.$refs['typeExpensesAdd'].hide()
     },
     save() {
+      this.$store.dispatch('loading', true)
       let newType = {
         name: this.name
       }
       this.$store.dispatch("saveType", newType)
         .then(response => {
           if (response) {
-            this.$refs['typeExpensesAdd'].hide()
+            setTimeout(() => {
+              this.$refs['typeExpensesAdd'].hide()
+              this.$store.dispatch('loading', false)
+              this.$store.dispatch('alert', 'success')
+            }, 1000)
           }
         })
     }
