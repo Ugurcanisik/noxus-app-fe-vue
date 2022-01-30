@@ -48,7 +48,7 @@ const actions = {
           commit("updateTypesList", payload);
           return true
         } else {
-          dispatch('alert', 'error')
+          return false
         }
       })
   },
@@ -67,6 +67,8 @@ const actions = {
           if (response.status === 200) {
             type[0].name = payload.data.name
             return true
+          } else {
+            return false
           }
         })
     }
@@ -87,6 +89,9 @@ const actions = {
                 state.types.splice(index, 1)
               }
             }
+            return true
+          } else {
+            return false
           }
         })
     }

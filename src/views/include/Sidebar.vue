@@ -110,7 +110,7 @@
             tag="li"
             class="nav-item">
             <a>
-              <i class="fas fa-gear"></i>
+              <i class="flaticon-settings"></i>
               <p>Ayarlar</p>
             </a>
           </router-link>

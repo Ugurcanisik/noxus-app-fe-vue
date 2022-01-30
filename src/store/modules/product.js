@@ -63,7 +63,7 @@ const actions = {
           commit("updateProductsList", payload);
           return true
         } else {
-          dispatch('alert', 'error')
+          return false
         }
       })
 
@@ -100,6 +100,8 @@ const actions = {
             product[0].price = payload.data.price
             product[0].categoryId = payload.data.category
             return true
+          } else {
+            return false
           }
         })
 
@@ -130,6 +132,9 @@ const actions = {
                 state.products.splice(index, 1)
               }
             }
+            return true
+          } else {
+            return false
           }
         })
     }

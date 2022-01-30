@@ -30,7 +30,7 @@ const mutations = {
 
 const actions = {
   initCategoryApp({commit}) {
-    axios.get('/categories')
+    return axios.get('/categories')
       .then(response => {
         if (response.status === 200) {
           let data = response.data;
@@ -48,7 +48,7 @@ const actions = {
           commit("updateCategoryList", payload);
           return true
         } else {
-          dispatch('alert', 'error')
+          return false
         }
       })
   },
@@ -67,6 +67,8 @@ const actions = {
           if (response.status === 200) {
             category[0].name = payload.data.name
             return true
+          } else {
+            return false
           }
         })
     }
@@ -95,13 +97,16 @@ const actions = {
                 state.categories.splice(index, 1)
               }
             }
+            return true
+          } else {
+            return false
           }
         })
     }
 
   },
   sortableCategory({dispatch, commit, state}, payload) {
-    return axios.post("/categories/rank", payload)
+    axios.post("/categories/rank", payload)
       .then(response => {
       })
   }

@@ -3,10 +3,14 @@
     <!-- Logo Header -->
     <div class="logo-header" data-background-color="blue">
 
-      <a href="/dashboard" class="logo">
+      <router-link
+        to="/dashboard"
+        tag="a"
+        class="logo">
         <img style="margin-left: 66px" src="https://storage.cloud.google.com/noxus-up-file/noxusico.png" width="50"
              height="50" alt="navbar brand" class="navbar-brand">
-      </a>
+      </router-link>
+
       <button class="navbar-toggler sidenav-toggler ml-auto" type="button" data-toggle="collapse" data-target="collapse"
               aria-expanded="false" aria-label="Toggle navigation">
 					<span class="navbar-toggler-icon">

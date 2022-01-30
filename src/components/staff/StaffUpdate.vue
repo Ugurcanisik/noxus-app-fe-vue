@@ -73,11 +73,12 @@ export default {
       this.$store.dispatch("updateStaff", updateStaff)
         .then(response => {
           if (response) {
-            setTimeout(() => {
-              this.$refs['updateStaff'].hide()
-              this.$store.dispatch('loading', false)
-              this.$store.dispatch('alert', 'success')
-            }, 1000)
+            this.$refs['updateStaff'].hide()
+            this.$store.dispatch('loading', false)
+            this.$store.dispatch('alert', 'success')
+          } else {
+            this.$store.dispatch('loading', false)
+            this.$store.dispatch('alert', 'error')
           }
         })
     }

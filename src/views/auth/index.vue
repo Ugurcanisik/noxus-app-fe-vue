@@ -1,5 +1,7 @@
 <template>
-  <div style="margin: 110px auto; width: 500px">
+
+  <div style="margin: 100px auto; width: 500px">
+
 
     <div class="form-group form-floating-label" :class="{'has-error': $v.user.userName.$error}">
       <input
@@ -22,8 +24,8 @@
       class="login"
       variant="primary"
       @click="login"
-      :disabled="$v.user.$invalid"
-    >Giriş Yap
+      :disabled="$v.user.$invalid || loginButton"
+    >{{ button }}
     </b-button>
   </div>
 
@@ -38,16 +40,30 @@ export default {
       user: {
         userName: null,
         password: null
-      }
+      },
+      button: 'Giriş Yap',
+      loginButton: false
     }
   },
   methods: {
     login() {
+      this.button = 'Yükleniyor...'
+      this.loginButton = true
+
       let login = {
         userName: this.user.userName,
         password: this.user.password
       }
       this.$store.dispatch('login', login)
+        .then(response => {
+          if (response === false) {
+            this.$store.dispatch('alert', 'warning')
+            this.button = 'Giriş Yap'
+            this.loginButton = false
+          }
+        })
+
+
     }
   },
   validations: {
@@ -64,4 +80,5 @@ export default {
   position: relative;
   left: 200px;
 }
+
 </style>

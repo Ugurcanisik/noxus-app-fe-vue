@@ -57,7 +57,7 @@ const actions = {
     }
   },
   login({commit, dispatch, state}, payload) {
-    axios.post('/auth', payload)
+    return axios.post('/auth', payload)
       .then(response => {
         if (response.data != false) {
           let timer = 3000
@@ -76,7 +76,7 @@ const actions = {
             //  router.replace('/')
           }, timer)
         } else {
-          dispatch('alert', 'warning')
+          return false
         }
       })
   },

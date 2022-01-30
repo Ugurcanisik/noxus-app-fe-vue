@@ -48,7 +48,7 @@ const actions = {
           commit("updateStaffList", payload);
           return true
         } else {
-          dispatch('alert', 'error')
+          return false
         }
       })
   },
@@ -69,6 +69,8 @@ const actions = {
             staff[0].startDate = payload.data.startDate
             staff[0].endDate = payload.data.endDate
             return true
+          } else {
+            return false
           }
         })
     }
@@ -89,6 +91,9 @@ const actions = {
                 state.staff.splice(index, 1)
               }
             }
+            return true
+          } else {
+            return false
           }
         })
     }

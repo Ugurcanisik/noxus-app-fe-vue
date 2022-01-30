@@ -142,15 +142,28 @@ export default {
         if (Delete) {
           this.$store.dispatch("deleteCiro", id)
             .then(response => {
-              swal({
-                title: 'Silindi!',
-                type: 'success',
-                buttons: {
-                  confirm: {
-                    className: 'btn btn-success'
+              if (response) {
+                swal({
+                  title: 'Silindi!',
+                  icon : "success",
+                  type: 'success',
+                  buttons: {
+                    confirm: {
+                      className: 'btn btn-success'
+                    }
                   }
-                }
-              });
+                });
+              } else {
+                swal({
+                  title: 'Hata!',
+                  icon: "error",
+                  buttons: {
+                    confirm: {
+                      className: 'btn btn-danger'
+                    }
+                  },
+                });
+              }
             })
         } else {
           swal.close();

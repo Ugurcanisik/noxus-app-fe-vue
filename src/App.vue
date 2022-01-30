@@ -4,15 +4,16 @@
 
     <div class="wrapper" v-else>
 
-      <Header></Header>
-      <Sidebar></Sidebar>
-
       <div class="loading" :style="isLoading">
         <div class="lds-ripple">
           <div></div>
           <div></div>
         </div>
       </div>
+
+
+      <Header></Header>
+      <Sidebar></Sidebar>
 
 
       <div class="main-panel">
@@ -62,11 +63,13 @@ export default {
       }
     },
     initApps() {
-      // this.$store.dispatch("initAuth");
-      this.$store.dispatch('initDashboardApp')
-      this.$store.dispatch("initCategoryApp");
+      this.$store.dispatch("initCategoryApp").then(response => {
+        this.isLoad = false
+      })
+      this.$store.dispatch('initDashboardApp').then(response => {
+        this.isLoad = false
+      })
       this.$store.dispatch("initCiroApp");
-      //this.$store.dispatch("initProductsApp");
       this.$store.dispatch("initStaffApp");
       this.$store.dispatch("initTypesApp");
       this.$store.dispatch("initExpensesApp");
@@ -100,11 +103,6 @@ export default {
     getLoading(value) {
       this.isLoad = value
     },
-    allDashboard(n) {
-      if (n !== null) {
-        setTimeout(()=>{this.isLoad = false},500)
-      }
-    }
   }
 }
 </script>

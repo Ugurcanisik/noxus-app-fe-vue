@@ -50,7 +50,7 @@ const actions = {
           dispatch('initDashboardApp')
           return true
         } else {
-          dispatch('alert', 'error')
+          return false
         }
       })
   },
@@ -71,6 +71,8 @@ const actions = {
             ciro[0].date = payload.data.date
             dispatch('initDashboardApp')
             return true
+          } else {
+            return false
           }
         })
     }
@@ -92,6 +94,9 @@ const actions = {
               }
             }
             dispatch('initDashboardApp')
+            return true
+          } else {
+            return false
           }
         })
     }

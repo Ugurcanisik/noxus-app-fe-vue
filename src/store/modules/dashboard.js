@@ -18,7 +18,7 @@ const mutations = {
 
 const actions = {
   initDashboardApp({commit}) {
-    axios.get('/dashboard',)
+    return axios.get('/dashboard',)
       .then(response => {
         if (response.status === 200) {
           state.dash = null

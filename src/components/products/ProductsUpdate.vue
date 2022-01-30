@@ -75,7 +75,7 @@ export default {
     },
     update() {
       this.$store.dispatch('loading', true)
-      const updateProduct= {
+      const updateProduct = {
         id: this.id,
         data: {
           picture: this.updateProduct.picture,
@@ -88,11 +88,12 @@ export default {
       this.$store.dispatch("updateProduct", updateProduct)
         .then(response => {
           if (response) {
-            setTimeout(() => {
-              this.$refs['updateProduct'].hide()
-              this.$store.dispatch('loading', false)
-              this.$store.dispatch('alert', 'success')
-            }, 1000)
+            this.$refs['updateProduct'].hide()
+            this.$store.dispatch('loading', false)
+            this.$store.dispatch('alert', 'success')
+          } else {
+            this.$store.dispatch('loading', false)
+            this.$store.dispatch('alert', 'error')
           }
         })
     },

@@ -48,7 +48,7 @@ const actions = {
           commit("updateUsersList", payload);
           return true
         } else {
-          dispatch('alert', 'error')
+          return false
         }
       })
   },
@@ -69,6 +69,8 @@ const actions = {
             user[0].lastName = payload.data.lastName
             user[0].userName = payload.data.userName
             return true
+          } else {
+            return false
           }
         })
     }
@@ -89,6 +91,9 @@ const actions = {
                 state.users.splice(index, 1)
               }
             }
+            return true
+          } else {
+            return false
           }
         })
     }
