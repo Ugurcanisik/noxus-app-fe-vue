@@ -30,12 +30,12 @@ const mutations = {
 
 const actions = {
   initExpensesApp({commit}) {
-    axios.get('/expenses')
+    return axios.get('/expenses')
       .then(response => {
         if (response.status === 200) {
           let data = response.data;
           for (let key in data) {
-            data[key].total = parseFloat(data[key].total).toLocaleString() + ' TL'
+            data[key].total = parseFloat(data[key].total).toLocaleString() + ' ₺'
             commit("updateExpensesList", data[key]);
           }
         }

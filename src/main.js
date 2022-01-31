@@ -4,6 +4,13 @@ import {router} from "./router/router";
 import {store} from "./store/store";
 
 
+import VueMeta from 'vue-meta'
+
+Vue.use(VueMeta, {
+  refreshOnceOnNavigation: true
+})
+
+
 import datePicker from 'vue-bootstrap-datetimepicker';
 import 'pc-bootstrap4-datetimepicker/build/css/bootstrap-datetimepicker.css';
 
@@ -39,14 +46,14 @@ import 'bootstrap-vue/dist/bootstrap-vue.css'
 
 Vue.use(BootstrapVue)
 
-router.beforeEach((to, from,next) => {
+router.beforeEach((to, from, next) => {
   store.dispatch('initAuth').then((response) => {
     next()
   })
 })
 
 Vue.filter("currency", (value) => {
-  return parseFloat(value).toLocaleString(undefined) + " TL"
+  return parseFloat(value).toLocaleString(undefined) + " ₺"
 })
 
 

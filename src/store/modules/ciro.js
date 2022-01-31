@@ -30,12 +30,12 @@ const mutations = {
 
 const actions = {
   initCiroApp({commit}) {
-    axios.get('/ciro',)
+    return axios.get('/ciro',)
       .then(response => {
         if (response.status === 200) {
           let data = response.data;
           for (let key in data) {
-            data[key].total = parseFloat(data[key].total).toLocaleString() + ' TL'
+            data[key].total = parseFloat(data[key].total).toLocaleString() + ' ₺'
             commit("updateCiroList", data[key]);
           }
         }

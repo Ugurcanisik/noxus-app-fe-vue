@@ -1,5 +1,7 @@
 <template>
   <div>
+
+
     <Auth v-if="auth()"></Auth>
 
     <div class="wrapper" v-else>
@@ -50,7 +52,34 @@ export default {
   },
   data() {
     return {
-      isLoad: false
+      isLoad: false,
+      settings: {
+        title: null,
+        ico: null,
+        description: null,
+        keywords: null,
+      },
+      deneme: 'asdasdsad'
+    }
+  },
+  metaInfo() {
+    return {
+      title: this.settings.title,
+      titleTemplate: '%s Yönetim',
+      htmlAttrs: {
+        lang: 'en'
+      },
+      link: [
+        {rel: 'icon', href: 'https://storage.cloud.google.com/noxus-up-file/' + this.settings.ico, type: "image/x-icon"}
+      ],
+      meta: [
+        {charset: 'utf-8'},
+        {name: 'http-equiv', content: 'IE=edge'},
+        {name: 'viewport', content: 'width=device-width, initial-scale=1.0, shrink-to-fit=no'},
+        {name: 'description', content: this.settings.description},
+        {name: 'keywords', content: this.settings.keywords},
+
+      ]
     }
   },
   methods: {
@@ -63,24 +92,15 @@ export default {
       }
     },
     initApps() {
-      this.$store.dispatch("initCategoryApp").then(response => {
-        this.isLoad = false
-      })
-      this.$store.dispatch('initDashboardApp').then(response => {
-        this.isLoad = false
-      })
-      this.$store.dispatch("initCiroApp");
-      this.$store.dispatch("initStaffApp");
-      this.$store.dispatch("initTypesApp");
-      this.$store.dispatch("initExpensesApp");
-      this.$store.dispatch("initSettingsApp");
-      this.$store.dispatch("initUsersApp")
+      this.$store.dispatch("initTypesApp")
+      this.$store.dispatch("initSettingsApp")
     }
   },
   computed: {
     ...mapGetters(["isAuthenticated"]),
     ...mapGetters(['getLoading']),
     ...mapGetters(['allDashboard']),
+    ...mapGetters(['allSettings']),
     isLoading() {
       if (this.isLoad) {
         return {
@@ -103,7 +123,13 @@ export default {
     getLoading(value) {
       this.isLoad = value
     },
-  }
+    allSettings(payload) {
+      this.settings.title = payload[0].title
+      this.settings.ico = payload[0].ico
+      this.settings.description = payload[0].description
+      this.settings.keywords = payload[0].keywords
+    }
+  },
 }
 </script>
 

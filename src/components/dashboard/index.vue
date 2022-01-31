@@ -22,5 +22,10 @@ export default {
     TopNav,
     BotNav
   },
+  mounted() {
+    if (this.$store.getters.allDashboard.length > 0) {
+      this.$store.dispatch('loading', false)
+    }
+  }
 }
 </script>

@@ -44,7 +44,7 @@
                     <div class="avatar-lg"><img src="assets/img/profile.jpg" alt="image profile"
                                                 class="avatar-img rounded"></div>
                     <div class="u-text">
-                      <h4>Hizrian</h4>
+                      <h4>{{ userName }}</h4>
                     </div>
                   </div>
                 </li>
@@ -64,10 +64,25 @@
   </div>
 </template>
 <script>
+import {mapGetters} from "vuex";
+
 export default {
   methods: {
     logout() {
       this.$store.dispatch('logout')
+    }
+  },
+  data() {
+    return {
+      userName: null
+    }
+  },
+  computed: {
+    ...mapGetters(["getUser"]),
+  },
+  watch: {
+    getUser(value) {
+      this.userName = value.fullName
     }
   }
 }

@@ -149,7 +149,7 @@ export default {
               if (response) {
                 swal({
                   title: 'Silindi!',
-                  icon : "success",
+                  icon: "success",
                   type: 'success',
                   buttons: {
                     confirm: {
@@ -186,6 +186,9 @@ export default {
     setTimeout(() => {
       this.totalRows = this.allExpenses.length
     }, 300)
+    if (this.allExpenses.length > 0) {
+      this.$store.dispatch('loading', false)
+    }
   },
   watch: {
     allCiro() {

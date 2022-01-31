@@ -21,6 +21,11 @@ export default {
   components: {
     ProductList,
     ProductUpdate
+  },
+  mounted() {
+    if (this.$route.path === '/products') {
+      this.$store.dispatch('loading', false)
+    }
   }
 }
 </script>

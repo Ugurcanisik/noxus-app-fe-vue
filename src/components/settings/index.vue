@@ -96,9 +96,22 @@ export default {
       this.$store.dispatch("updateSettings", {id: this.id, data: this.settings})
     }
   },
+  computed: {
+    ...mapGetters(['allSettings'])
+  },
   mounted() {
-    setTimeout(() => {
-      const settings = this.$store.getters.allSettings
+    const settings = this.allSettings
+    this.settings.logo = settings[0].logo
+    this.settings.ico = settings[0].ico
+    this.settings.title = settings[0].title
+    this.settings.description = settings[0].description
+    this.settings.keywords = settings[0].keywords
+    this.settings.companyName = settings[0].companyName
+    this.id = settings[0].id
+    this.$store.dispatch('loading', false)
+  },
+  watch: {
+    allSettings(settings) {
       this.settings.logo = settings[0].logo
       this.settings.ico = settings[0].ico
       this.settings.title = settings[0].title
@@ -106,7 +119,8 @@ export default {
       this.settings.keywords = settings[0].keywords
       this.settings.companyName = settings[0].companyName
       this.id = settings[0].id
-    }, 300)
+      this.$store.dispatch('loading', false)
+    }
   },
   validations: {
     settings: {

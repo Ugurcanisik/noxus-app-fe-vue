@@ -23,10 +23,11 @@ const mutations = {
 
 const actions = {
   initSettingsApp({commit}) {
-    axios.get('/settings')
+    return axios.get('/settings')
       .then(response => {
         if (response.status === 200) {
           let data = response.data;
+          console.log(data)
           for (let key in data) {
             commit("updateSettingsList", data[key]);
           }
@@ -35,22 +36,17 @@ const actions = {
   },
 
   updateSettings({dispatch, commit, state}, payload) {
-    const setting = getters.findOneSetting(payload.id)
 
-    if (setting.length > 0) {
-      return axios.patch("/settings/" + payload.id, payload.data)
-        .then(response => {
-          if (response.status === 200) {
-            setting[0].logo = payload.data.logo
-            setting[0].ico = payload.data.ico
-            setting[0].title = payload.data.title
-            setting[0].description = payload.data.description
-            setting[0].keywords = payload.data.keywords
-            setting[0].companyName = payload.data.companyName
-            dispatch('alert', 'success')
-          }
-        })
-    }
+    return axios.patch("/settings/" + payload.id, payload.data)
+      .then(response => {
+        if (response.status === 200) {
+          state.settings = []
+          payload.data.id = payload.id
+          commit('updateSettingsList', payload.data)
+          dispatch('alert', 'success')
+        }
+      })
+
 
   },
 

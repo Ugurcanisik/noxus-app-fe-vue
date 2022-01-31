@@ -186,6 +186,9 @@ export default {
     setTimeout(() => {
       this.totalRows = this.allUsers.length
     }, 300)
+    if (this.allUsers.length > 0) {
+      this.$store.dispatch('loading', false)
+    }
   },
   watch: {
     allCiro() {

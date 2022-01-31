@@ -85,8 +85,8 @@ export default {
     chartCiro() {
       const ciro = this.$store.getters.allDashboard
       let monthName = []
-      for (const i in ciro.ciro.chart.month) {
-        monthName.push(this.month(ciro.ciro.chart.month[i]))
+      for (const i in ciro[0].chart.month) {
+        monthName.push(this.month(ciro[0].chart.month[i]))
       }
       let mytotalIncomeChart = new Chart(this.$refs.chartCiro.id, {
         type: 'bar',
@@ -96,7 +96,7 @@ export default {
             label: "Total Income",
             backgroundColor: '#ff9e27',
             borderColor: 'rgb(23, 125, 255)',
-            data: ciro.ciro.chart.total,
+            data: ciro[0].chart.total,
           }],
         },
         options: {
@@ -119,8 +119,8 @@ export default {
     charExpense() {
       const ciro = this.$store.getters.allDashboard
       let monthName = []
-      for (const i in ciro.expense.chart.month) {
-        monthName.push(this.month(ciro.expense.chart.month[i]))
+      for (const i in ciro[1].chart.month) {
+        monthName.push(this.month(ciro[1].chart.month[i]))
       }
       let mytotalIncomeChart = new Chart(this.$refs.chartExpense.id, {
         type: 'bar',
@@ -130,7 +130,7 @@ export default {
             label: "Total Income",
             backgroundColor: '#ff9e27',
             borderColor: 'rgb(23, 125, 255)',
-            data: ciro.expense.chart.total,
+            data: ciro[1].chart.total,
           }],
         },
         options: {
@@ -154,17 +154,18 @@ export default {
   computed: {
     ...mapGetters(["allDashboard"]),
   },
-  created() {
-    if (this.allDashboard != null) {
-      this.ciroMax = this.allDashboard.ciro.max,
-        this.ciroTotal = this.allDashboard.ciro.total,
-        this.expenseMonth = this.allDashboard.expense.month,
-        this.expenseTotal = this.allDashboard.expense.total
-      setTimeout(() => {
-        this.chartCiro()
-        this.charExpense()
-      }, 500)
+  mounted() {
+    if (this.allDashboard.length>0){
+
     }
+    this.ciroMax = this.allDashboard[0].max,
+      this.ciroTotal = this.allDashboard[0].total,
+      this.expenseMonth = this.allDashboard[1].month,
+      this.expenseTotal = this.allDashboard[1].total
+    setTimeout(() => {
+      this.chartCiro()
+      this.charExpense()
+    }, 500)
   },
   watch: {
     allDashboard(payload) {

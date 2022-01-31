@@ -30,7 +30,7 @@ const mutations = {
 
 const actions = {
   initUsersApp({commit}) {
-    axios.get('/users')
+    return axios.get('/users')
       .then(response => {
         if (response.status === 200) {
           let data = response.data;

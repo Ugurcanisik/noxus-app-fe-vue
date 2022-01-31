@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const state = {
-  dash: null,
+  dash: [],
 }
 
 const getters = {
@@ -12,7 +12,7 @@ const getters = {
 
 const mutations = {
   updateDashboard(state, payload) {
-    state.dash = payload;
+    state.dash.push(payload);
   },
 }
 
@@ -21,8 +21,10 @@ const actions = {
     return axios.get('/dashboard',)
       .then(response => {
         if (response.status === 200) {
-          state.dash = null
-          commit("updateDashboard", response.data);
+          let data = response.data;
+          for (let key in data) {
+            commit("updateDashboard", data[key]);
+          }
         }
       })
   },
