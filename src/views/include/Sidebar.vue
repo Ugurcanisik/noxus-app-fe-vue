@@ -130,6 +130,11 @@ export default {
       userName: null
     }
   },
+  mounted() {
+    if (this.getUser){
+      this.userName = this.getUser.fullName
+    }
+  },
   computed: {
     ...mapGetters(["getUser"]),
   },

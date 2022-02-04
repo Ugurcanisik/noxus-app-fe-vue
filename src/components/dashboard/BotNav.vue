@@ -155,28 +155,27 @@ export default {
     ...mapGetters(["allDashboard"]),
   },
   mounted() {
-    if (this.allDashboard.length>0){
-
-    }
-    this.ciroMax = this.allDashboard[0].max,
-      this.ciroTotal = this.allDashboard[0].total,
-      this.expenseMonth = this.allDashboard[1].month,
-      this.expenseTotal = this.allDashboard[1].total
-    setTimeout(() => {
-      this.chartCiro()
-      this.charExpense()
-    }, 500)
-  },
-  watch: {
-    allDashboard(payload) {
-      this.ciroMax = payload.ciro.max,
-        this.ciroTotal = payload.ciro.total,
-        this.expenseMonth = payload.expense.month,
-        this.expenseTotal = payload.expense.total
+    if(this.$store.getters.allDashboard.length>0){
+      this.ciroMax = this.allDashboard[0].max,
+        this.ciroTotal = this.allDashboard[0].total,
+        this.expenseMonth = this.allDashboard[1].month,
+        this.expenseTotal = this.allDashboard[1].total
       setTimeout(() => {
         this.chartCiro()
         this.charExpense()
-      }, 2000)
+      }, 1000)
+    }
+  },
+  watch: {
+    allDashboard(payload) {
+      this.ciroMax = payload[0].max,
+        this.ciroTotal = payload[0].total,
+        this.expenseMonth = payload[1].month,
+        this.expenseTotal = payload[1].total
+      setTimeout(() => {
+        this.chartCiro()
+        this.charExpense()
+      }, 1000)
     }
   }
 }

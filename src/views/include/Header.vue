@@ -40,17 +40,13 @@
             <ul class="dropdown-menu dropdown-user animated fadeIn">
               <div class="dropdown-user-scroll scrollbar-outer">
                 <li>
-                  <div class="user-box">
-                    <div class="avatar-lg"><img src="assets/img/profile.jpg" alt="image profile"
-                                                class="avatar-img rounded"></div>
-                    <div class="u-text">
-                      <h4>{{ userName }}</h4>
-                    </div>
-                  </div>
-                </li>
-                <li>
-                  <div class="dropdown-divider"></div>
-                  <a class="dropdown-item" href="#">Account Setting</a>
+                  <router-link
+                    to="accountSettings"
+                    tag="a"
+                    class="dropdown-item">
+                    Account Setting
+                  </router-link>
+
                   <div class="dropdown-divider"></div>
                   <a class="dropdown-item" @click="logout">Logout</a>
                 </li>
@@ -75,6 +71,11 @@ export default {
   data() {
     return {
       userName: null
+    }
+  },
+  mounted() {
+    if (this.getUser){
+      this.userName = this.getUser.fullName
     }
   },
   computed: {

@@ -42,6 +42,7 @@ import Footer from './views/include/Footer'
 import Auth from './views/auth'
 
 import {mapGetters} from "vuex";
+import {router} from "./router/router";
 
 export default {
   components: {
@@ -59,8 +60,97 @@ export default {
         description: null,
         keywords: null,
       },
-      deneme: 'asdasdsad'
     }
+  },
+  methods: {
+    auth() {
+      const path = this.$route.path
+      if (path == '/auth') {
+        return true
+      } else {
+        return false
+      }
+    },
+    initApps() {
+      const path = this.$route.path
+      this.$store.dispatch("initDashboardApp")
+        .then(response => {
+          if (path == '/dashboard' || path == '/') {
+            this.isLoad = false
+          }
+        })
+      this.$store.dispatch("initCiroApp")
+        .then(response => {
+          if (path == '/ciro') {
+            this.isLoad = false
+          }
+        })
+      this.$store.dispatch("initTypesApp")
+      this.$store.dispatch("initExpensesApp")
+        .then(response => {
+          if (path == '/expenses') {
+            this.isLoad = false
+          }
+        })
+      this.$store.dispatch("initStaffApp")
+        .then(response => {
+          if (path == '/staff') {
+            this.isLoad = false
+          }
+        })
+      this.$store.dispatch("initSettingsApp")
+        .then(response => {
+          if (path == '/settings') {
+            this.isLoad = false
+          }
+        })
+    }
+  },
+  computed: {
+    ...mapGetters(['getLoading']),
+    ...mapGetters(['isAuthenticated']),
+    ...mapGetters(['allSettings']),
+    isLoading() {
+      if (this.isLoad) {
+        return {
+          display: "block"
+        }
+      } else {
+        return {
+          display: "none"
+        }
+      }
+    },
+  },
+  watch: {
+    getLoading(value) {
+      this.isLoad = value
+    },
+    allSettings(payload) {
+      this.settings.title = payload[0].title
+      this.settings.ico = payload[0].ico
+      this.settings.description = payload[0].description
+      this.settings.keywords = payload[0].keywords
+    },
+    isAuthenticated(auth) {
+      if (this.$route.path == '/auth') {
+        this.initApps()
+      }
+    }
+  },
+  created() {
+
+    this.isLoad = true
+    this.$store.dispatch('initAuth')
+      .then(response => {
+        if (response) {
+          this.initApps()
+        } else {
+          if (this.$route.path!='/auth'){
+            router.push('/auth')
+          }
+        }
+      })
   },
   metaInfo() {
     return {
@@ -80,54 +170,6 @@ export default {
         {name: 'keywords', content: this.settings.keywords},
 
       ]
-    }
-  },
-  methods: {
-    auth() {
-      const path = this.$route.path
-      if (path == '/auth') {
-        return true
-      } else {
-        return false
-      }
-    },
-    initApps() {
-      this.$store.dispatch("initTypesApp")
-      this.$store.dispatch("initSettingsApp")
-    }
-  },
-  computed: {
-    ...mapGetters(["isAuthenticated"]),
-    ...mapGetters(['getLoading']),
-    ...mapGetters(['allDashboard']),
-    ...mapGetters(['allSettings']),
-    isLoading() {
-      if (this.isLoad) {
-        return {
-          display: "block"
-        }
-      } else {
-        return {
-          display: "none"
-        }
-      }
-    },
-  },
-  watch: {
-    isAuthenticated(value) {
-      if (value !== false) {
-        this.isLoad = true
-        this.initApps()
-      }
-    },
-    getLoading(value) {
-      this.isLoad = value
-    },
-    allSettings(payload) {
-      this.settings.title = payload[0].title
-      this.settings.ico = payload[0].ico
-      this.settings.description = payload[0].description
-      this.settings.keywords = payload[0].keywords
     }
   },
 }

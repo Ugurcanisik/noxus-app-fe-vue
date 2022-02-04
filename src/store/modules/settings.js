@@ -27,7 +27,6 @@ const actions = {
       .then(response => {
         if (response.status === 200) {
           let data = response.data;
-          console.log(data)
           for (let key in data) {
             commit("updateSettingsList", data[key]);
           }

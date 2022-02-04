@@ -1,4 +1,5 @@
 import axios from "axios";
+import {get} from "vue-js-toggle-button/src/utils";
 
 const state = {
   users: [],
@@ -29,7 +30,7 @@ const mutations = {
 }
 
 const actions = {
-  initUsersApp({commit}) {
+  initUsersApp({dispatch, commit, state}) {
     return axios.get('/users')
       .then(response => {
         if (response.status === 200) {
@@ -56,6 +57,12 @@ const actions = {
     const user = getters.findOneUser(payload)
     if (user.length > 0) {
       commit('updateUserModal', user)
+    }
+  },
+  findAccountSettingsUser({dispatch, commit, state}, payload) {
+    const user = getters.findOneUser(payload)
+    if (user.length > 0) {
+      return user
     }
   },
   updateUser({dispatch, commit, state}, payload) {

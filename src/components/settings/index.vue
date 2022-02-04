@@ -108,7 +108,7 @@ export default {
     this.settings.keywords = settings[0].keywords
     this.settings.companyName = settings[0].companyName
     this.id = settings[0].id
-    this.$store.dispatch('loading', false)
+
   },
   watch: {
     allSettings(settings) {
@@ -119,7 +119,7 @@ export default {
       this.settings.keywords = settings[0].keywords
       this.settings.companyName = settings[0].companyName
       this.id = settings[0].id
-      this.$store.dispatch('loading', false)
+
     }
   },
   validations: {

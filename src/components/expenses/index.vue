@@ -21,7 +21,7 @@ export default {
   components: {
     ExpenseList,
     ExpenseUpdate
-  }
+  },
 }
 </script>
 

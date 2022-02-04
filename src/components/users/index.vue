@@ -21,6 +21,11 @@ export default {
   components: {
     UserList,
     UserUpdate
+  },
+  mounted() {
+    if (this.$store.getters.allUsers.length > 0) {
+      this.$store.dispatch('loading', false)
+    }
   }
 }
 </script>

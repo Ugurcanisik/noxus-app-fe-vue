@@ -21,6 +21,11 @@ export default {
   components: {
     CategoryList,
     CategoryUpdate
+  },
+  mounted() {
+    if (this.$store.getters.allCategories.length > 0) {
+      this.$store.dispatch('loading', false)
+    }
   }
 }
 </script>

@@ -202,9 +202,6 @@ export default {
     setTimeout(() => {
       this.totalRows = this.allCategories.length
     }, 300)
-    if (this.allCategories.length > 0) {
-      this.$store.dispatch('loading', false)
-    }
   },
   watch: {
     allCategories() {

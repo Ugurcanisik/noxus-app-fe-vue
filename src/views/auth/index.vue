@@ -20,6 +20,7 @@
         type="text" class="form-control input-border-bottom" required>
       <label for="password" class="placeholder">Parola Adı</label>
     </div>
+    <input type="hidden" id="recaptchaId" value="">
     <b-button
       class="login"
       variant="primary"
@@ -32,7 +33,9 @@
 
 </template>
 <script>
+
 import {required} from "vuelidate/lib/validators";
+
 
 export default {
   data() {
@@ -42,18 +45,34 @@ export default {
         password: null
       },
       button: 'Giriş Yap',
-      loginButton: false
+      loginButton: false,
+      script: null
     }
+  },
+  mounted() {
+    window.grecaptcha.ready(function () {
+      window.grecaptcha.execute('6LcXclceAAAAAE7aGkuoq7MxqGUbNpoVnUDloczo', {action: 'login'}).then(function (token) {
+        document.getElementById("recaptchaId").value = token;
+      });
+    });
   },
   methods: {
     login() {
       this.button = 'Yükleniyor...'
       this.loginButton = true
 
+      const recaptcha = document.getElementById("recaptchaId").value
+
+
       let login = {
-        userName: this.user.userName,
-        password: this.user.password
+        user: {
+          userName: this.user.userName,
+          password: this.user.password,
+        },
+        recaptcha: {recaptcha}
       }
+
+
       this.$store.dispatch('login', login)
         .then(response => {
           if (response === false) {
@@ -64,7 +83,7 @@ export default {
         })
 
 
-    }
+    },
   },
   validations: {
     user: {

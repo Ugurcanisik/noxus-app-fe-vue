@@ -94,17 +94,19 @@ export default {
     ...mapGetters(["allDashboard"]),
   },
   mounted() {
-    this.ciroYesterday = this.allDashboard[0].yesterday,
-      this.ciroAverage = this.allDashboard[0].average,
-      this.ciroMonth = this.allDashboard[0].month,
-      this.expenseToday = this.allDashboard[1].today
+    if (this.$store.getters.allDashboard.length > 0) {
+      this.ciroYesterday = this.allDashboard[0].yesterday,
+        this.ciroAverage = this.allDashboard[0].average,
+        this.ciroMonth = this.allDashboard[0].month,
+        this.expenseToday = this.allDashboard[1].today
+    }
   },
   watch: {
     allDashboard(payload) {
-      this.ciroYesterday = payload.ciro.yesterday,
-        this.ciroAverage = payload.ciro.average,
-        this.ciroMonth = payload.ciro.month,
-        this.expenseToday = payload.expense.today
+      this.ciroYesterday = payload[0].yesterday,
+        this.ciroAverage = payload[0].average,
+        this.ciroMonth = payload[0].month,
+        this.expenseToday = payload[1].today
     }
   },
 }

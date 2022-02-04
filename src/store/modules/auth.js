@@ -1,5 +1,4 @@
 import axios from "axios";
-import VueCookies from 'vue-cookies'
 import {router} from '../../router/router'
 
 
@@ -47,6 +46,7 @@ const actions = {
             commit('setUser', response.data)
             commit("setToken", token)
             //router.push("/")
+            return true
           } else {
             dispatch('logout')
             return false
@@ -57,33 +57,43 @@ const actions = {
     }
   },
   login({commit, dispatch, state}, payload) {
-    return axios.post('/auth', payload)
+    return axios.post('/auth/recaptcha', payload.recaptcha)
       .then(response => {
-        if (response.data != false) {
-          let timer = 3000
-          let token = response.data
-          localStorage.setItem("token", token)
-          commit("setToken", token)
-          swal({
-            text: "Giriş Başarılı",
-            icon: "success",
-            button: false,
-            timer: timer,
-            closeOnClickOutside: false,
-          });
-          setTimeout(() => {
-            router.push("/")
-            //  router.replace('/')
-          }, timer)
+        const recaptcha = response.data
+
+        if (recaptcha.action == 'login' && recaptcha.score > 0.5 && recaptcha.success == true) {
+          return axios.post('/auth', payload.user)
+            .then(response => {
+              if (response.data != false) {
+                let timer = 3000
+                let token = response.data
+                localStorage.setItem("token", token)
+                commit("setToken", token)
+                swal({
+                  text: "Giriş Başarılı",
+                  icon: "success",
+                  button: false,
+                  timer: timer,
+                  closeOnClickOutside: false,
+                });
+                setTimeout(() => {
+                  router.push("/")
+                  //  router.replace('/')
+                }, timer)
+              } else {
+                return false
+              }
+            })
         } else {
           return false
         }
+
       })
   },
   logout({commit, dispatch, state}) {
     commit("clearToken")
     localStorage.removeItem("token")
-    router.replace("/auth")
+    router.push("/auth")
   },
 }
 

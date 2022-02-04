@@ -197,9 +197,6 @@ export default {
     setTimeout(() => {
       this.totalRows = this.allStaff.length
     }, 300)
-    if (this.allStaff.length > 0) {
-      this.$store.dispatch('loading', false)
-    }
   },
   watch: {
     allStaff() {
