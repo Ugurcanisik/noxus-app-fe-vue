@@ -1,7 +1,7 @@
 <template>
 
   <div>
-    <b-button class="btn-round ml-auto" variant="primary" @click="openModal">
+    <b-button class="btn-round ml-auto" :disabled="role.write" variant="primary" @click="openModal">
       <i class="fa fa-plus"></i>
       Gelir Ekle
     </b-button>
@@ -42,6 +42,7 @@
 </template>
 <script>
 import {required, numeric} from "vuelidate/lib/validators"
+import {mapGetters} from "vuex";
 
 export default {
   data() {
@@ -49,7 +50,8 @@ export default {
       newCiro: {
         total: null,
         date: null
-      }
+      },
+      role: {}
     }
   },
   methods: {
@@ -79,6 +81,12 @@ export default {
           }
         })
     }
+  },
+  computed: {
+    ...mapGetters(['getUser'])
+  },
+  mounted() {
+    this.role = JSON.parse(this.getUser.role).ciro
   },
   validations: {
     newCiro: {

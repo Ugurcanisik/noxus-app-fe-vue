@@ -35,6 +35,7 @@ const actions = {
       .then(response => {
         if (response.status === 200) {
           let data = response.data;
+          state.users = []
           for (let key in data) {
             commit("updateUsersList", data[key]);
           }
@@ -78,6 +79,23 @@ const actions = {
             return true
           } else {
             return false
+          }
+        })
+    }
+
+  },
+  updatePassword({dispatch, commit, state}, payload) {
+    const user = getters.findOneUser(payload.id)
+
+    if (user.length > 0) {
+      return axios.patch("/users/password/" + payload.id, payload.data)
+        .then(response => {
+          if (response.status === 200) {
+            if (response.data) {
+              return true
+            } else {
+              return false
+            }
           }
         })
     }

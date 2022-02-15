@@ -53,6 +53,11 @@
           head-variant="light"
         >
 
+          <template #cell(role)="row">
+            <p v-if="row.item.role=='admin'">ADMİN</p>
+            <p v-else>MOD</p>
+          </template>
+
           <template #cell(actions)="row">
             <button
               type="button"
@@ -119,6 +124,7 @@ export default {
         {key: 'name', label: 'İsim', sortable: true, class: 'text-center'},
         {key: 'lastName', label: 'Soyisim', sortable: true, class: 'text-center',},
         {key: 'userName', label: 'Kullanıcı Adı', sortable: true, class: 'text-center'},
+        {key: 'role', label: 'Yetki', class: 'text-center'},
         {key: 'actions', label: 'İşlemler', class: 'text-center'}
       ],
     }
@@ -183,9 +189,7 @@ export default {
     ...mapGetters(["allUsers"]),
   },
   mounted() {
-    setTimeout(() => {
-      this.totalRows = this.allUsers.length
-    }, 300)
+    this.totalRows = this.allUsers.length
   },
   watch: {
     allCiro() {

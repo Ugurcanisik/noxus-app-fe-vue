@@ -78,6 +78,8 @@ export default {
       this.userName = this.getUser.fullName
     }
   },
+  created() {
+  },
   computed: {
     ...mapGetters(["getUser"]),
   },

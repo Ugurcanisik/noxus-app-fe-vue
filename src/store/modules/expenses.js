@@ -34,8 +34,9 @@ const actions = {
       .then(response => {
         if (response.status === 200) {
           let data = response.data;
+          state.expenses = []
           for (let key in data) {
-            data[key].total = parseFloat(data[key].total).toLocaleString() + ' ₺'
+            data[key].total = parseFloat(data[key].total) + ' ₺'
             commit("updateExpensesList", data[key]);
           }
         }
@@ -46,6 +47,7 @@ const actions = {
       .then(response => {
         if (response.status === 201) {
           payload.id = response.data.id;
+          payload.total = parseFloat(payload.total) + ' ₺'
           payload.typeexpense = {id: response.data.typeexpense.id, name: response.data.typeexpense.name}
           if (payload.staff != null) {
             payload.staff = {id: response.data.staff.id, name: response.data.staff.name}

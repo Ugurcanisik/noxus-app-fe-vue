@@ -199,9 +199,7 @@ export default {
     ...mapGetters(["allCategories"]),
   },
   mounted() {
-    setTimeout(() => {
-      this.totalRows = this.allCategories.length
-    }, 300)
+    this.totalRows = this.allCategories.length
   },
   watch: {
     allCategories() {

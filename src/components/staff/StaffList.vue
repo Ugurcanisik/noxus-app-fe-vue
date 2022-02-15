@@ -194,9 +194,7 @@ export default {
     ...mapGetters(["allStaff"]),
   },
   mounted() {
-    setTimeout(() => {
-      this.totalRows = this.allStaff.length
-    }, 300)
+    this.totalRows = this.allStaff.length
   },
   watch: {
     allStaff() {

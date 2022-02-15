@@ -22,9 +22,12 @@ export default {
     UserList,
     UserUpdate
   },
-  mounted() {
-    if (this.$store.getters.allUsers.length > 0) {
-      this.$store.dispatch('loading', false)
+  created() {
+    if (this.$store.getters.allUsers.length === 0) {
+      this.$store.dispatch('initUsersApp')
+        .then(response => {
+          this.$store.dispatch('loading', false)
+        })
     }
   }
 }

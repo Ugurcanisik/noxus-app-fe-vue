@@ -17,7 +17,7 @@
       <input
         id="password"
         v-model="$v.user.password.$model"
-        type="text" class="form-control input-border-bottom" required>
+        type="password" class="form-control input-border-bottom" required>
       <label for="password" class="placeholder">Parola Adı</label>
     </div>
     <input type="hidden" id="recaptchaId" value="">
@@ -50,13 +50,16 @@ export default {
     }
   },
   mounted() {
-    window.grecaptcha.ready(function () {
-      window.grecaptcha.execute('6LcXclceAAAAAE7aGkuoq7MxqGUbNpoVnUDloczo', {action: 'login'}).then(function (token) {
-        document.getElementById("recaptchaId").value = token;
-      });
-    });
+    this.recaptcha()
   },
   methods: {
+    recaptcha() {
+      window.grecaptcha.ready(function () {
+        window.grecaptcha.execute('6LcXclceAAAAAE7aGkuoq7MxqGUbNpoVnUDloczo', {action: 'login'}).then(function (token) {
+          document.getElementById("recaptchaId").value = token;
+        });
+      });
+    },
     login() {
       this.button = 'Yükleniyor...'
       this.loginButton = true
@@ -79,11 +82,20 @@ export default {
             this.$store.dispatch('alert', 'warning')
             this.button = 'Giriş Yap'
             this.loginButton = false
+            this.recaptcha()
           }
         })
 
 
     },
+  },
+  metaInfo() {
+    return {
+      title: 'Login',
+      link: [
+        {rel: 'icon', href: 'https://storage.cloud.google.com/noxus-up-file/noxusico.png', type: "image/x-icon"}
+      ],
+    }
   },
   validations: {
     user: {

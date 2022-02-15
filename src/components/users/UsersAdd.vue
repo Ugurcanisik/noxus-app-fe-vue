@@ -43,6 +43,16 @@
             <label for="password" class="placeholder">Parola</label>
           </div>
 
+          <div class="form-group form-floating-label" :class="{'has-error': $v.newUser.role.$error}">
+            <b-form-select
+              v-model="$v.newUser.role.$model"
+              class="form-control input-border-bottom">
+              <b-form-select-option :value="null" disabled>Rol Seçiniz</b-form-select-option>
+              <b-form-select-option value="mod">MOD</b-form-select-option>
+              <b-form-select-option value="admin">ADMİN</b-form-select-option>
+            </b-form-select>
+          </div>
+
         </div>
         <div class="modal-footer no-bd" style="margin: 0 auto">
           <b-button variant="primary" @click="save" :disabled="$v.newUser.$invalid">Kaydet</b-button>
@@ -64,7 +74,8 @@ export default {
         name: null,
         lastName: null,
         userName: null,
-        password: null
+        password: null,
+        role: null
       }
     }
   },
@@ -74,6 +85,7 @@ export default {
       this.newUser.lastName = null
       this.newUser.userName = null
       this.newUser.password = null
+      this.newUser.role = null
       this.$refs['userAdd'].show()
     },
     closeModal() {
@@ -86,6 +98,7 @@ export default {
         lastName: this.newUser.lastName,
         userName: this.newUser.userName,
         password: this.newUser.password,
+        role: this.newUser.role
 
       }
       this.$store.dispatch("saveUser", newUser)
@@ -106,7 +119,8 @@ export default {
       name: {required},
       lastName: {required},
       userName: {required},
-      password: {required}
+      password: {required},
+      role: {required}
     }
   }
 }

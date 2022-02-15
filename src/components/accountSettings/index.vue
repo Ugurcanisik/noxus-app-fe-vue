@@ -11,44 +11,87 @@
     </div>
 
 
-    <div class="modal-content col-md-8" style="margin: 20px auto">
-      <div class="modal-body ">
+    <div class="page-inner mt--5">
+      <div class="row mt--2">
+        <div class="col-md-6">
+          <div class="card full-height">
+            <div class="card-body">
+              <div class="card-title">Kişisel Bilgier</div>
+              <div class="d-flex flex-wrap justify-content-around pb-2 pt-4">
 
-        <div class="form-group form-floating-label" :class="{'has-error': $v.user.name.$error}">
-          <input
-            id="logo"
-            v-model="$v.user.name.$model"
-            type="text" class="form-control input-border-bottom" required>
-          <label for="logo" class="placeholder">İsim</label>
+                <div class="form-group form-floating-label col-md-12" :class="{'has-error': $v.user.name.$error}">
+                  <input
+                    id="logo"
+                    v-model="$v.user.name.$model"
+                    type="text" class="form-control input-border-bottom" required>
+                  <label for="logo" class="placeholder">İsim</label>
+                </div>
+
+                <div class="form-group form-floating-label col-md-12" :class="{'has-error': $v.user.lastName.$error}">
+                  <input
+                    id="ico"
+                    v-model="$v.user.lastName.$model"
+                    type="text" class="form-control input-border-bottom" required>
+                  <label for="ico" class="placeholder">Soyisim</label>
+                </div>
+
+                <div class="form-group form-floating-label col-md-12" :class="{'has-error': $v.user.userName.$error}">
+                  <input
+                    id="title"
+                    v-model="$v.user.userName.$model"
+                    type="text" class="form-control input-border-bottom" required>
+                  <label for="title" class="placeholder">Kullanıcı Adı</label>
+                </div>
+
+                <div class="modal-footer no-bd" style="margin: 0 auto">
+                  <b-button variant="primary" @click="updateUser" :disabled="$v.user.$invalid">Güncelle</b-button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="card full-height">
+            <div class="card-body">
+              <div class="card-title">Parola Güncelle</div>
+              <div class="d-flex flex-wrap justify-content-around pb-2 pt-4">
+
+                <div class="form-group form-floating-label col-md-12"
+                     :class="{'has-error': $v.userPassword.oldPassword.$error}">
+                  <input
+                    id="oldPassword"
+                    v-model="$v.userPassword.oldPassword.$model"
+                    type="password" class="form-control input-border-bottom" required>
+                  <label for="oldPassword" class="placeholder">Eski Parola</label>
+                </div>
+
+                <div class="form-group form-floating-label col-md-12"
+                     :class="{'has-error': $v.userPassword.newPassword.$error}">
+                  <input
+                    id="newPassword"
+                    v-model="$v.userPassword.newPassword.$model"
+                    type="password" class="form-control input-border-bottom" required>
+                  <label for="newPassword" class="placeholder">Yeni Parola</label>
+                </div>
+
+                <div class="form-group form-floating-label col-md-12"
+                     :class="{'has-error': $v.userPassword.repeatPassword.$error}">
+                  <input
+                    id="repeatPassword"
+                    v-model="$v.userPassword.repeatPassword.$model"
+                    type="password" class="form-control input-border-bottom" required>
+                  <label for="repeatPassword" class="placeholder">Yeni Parola Tekrarı</label>
+                </div>
+
+                <div class="modal-footer no-bd" style="margin: 0 auto">
+                  <b-button variant="primary" @click="updatePassword" :disabled="$v.userPassword.$invalid">Güncelle
+                  </b-button>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
 
-        <div class="form-group form-floating-label" :class="{'has-error': $v.user.lastName.$error}">
-          <input
-            id="ico"
-            v-model="$v.user.lastName.$model"
-            type="text" class="form-control input-border-bottom" required>
-          <label for="ico" class="placeholder">Soyisim</label>
-        </div>
-
-        <div class="form-group form-floating-label" :class="{'has-error': $v.user.userName.$error}">
-          <input
-            id="title"
-            v-model="$v.user.userName.$model"
-            type="text" class="form-control input-border-bottom" required>
-          <label for="title" class="placeholder">Kullanıcı Adı</label>
-        </div>
-
-        <div class="form-group form-floating-label" :class="{'has-error': $v.user.password.$error}">
-          <input
-            id="description"
-            v-model="$v.user.password.$model"
-            type="text" class="form-control input-border-bottom" required>
-          <label for="description" class="placeholder">Parola</label>
-        </div>
-
-      </div>
-      <div class="modal-footer no-bd" style="margin: 0 auto">
-        <b-button variant="primary" @click="update" :disabled="$v.user.$invalid">Kaydet</b-button>
       </div>
     </div>
 
@@ -58,7 +101,7 @@
 <script>
 
 
-import {required} from "vuelidate/lib/validators";
+import {required, sameAs} from "vuelidate/lib/validators";
 import {mapGetters} from "vuex";
 
 export default {
@@ -68,34 +111,104 @@ export default {
         name: null,
         lastName: null,
         userName: null,
-        password: null,
-
+      },
+      userPassword: {
+        oldPassword: null,
+        newPassword: null,
+        repeatPassword: null
       },
       id: null
     }
   },
   methods: {
-    update() {
-      this.$store.dispatch("updateSettings", {id: this.id, data: this.settings})
+    updateUser() {
+      this.$store.dispatch('loading', true)
+      const user = {
+        data: {
+          name: this.user.name,
+          lastName: this.user.lastName,
+          userName: this.user.userName,
+        },
+        id: this.id
+      }
+
+      this.$store.dispatch('updateUser', user)
+        .then(response => {
+          if (response) {
+            this.$store.dispatch('loading', false)
+            this.$store.dispatch('alert', 'success')
+          } else {
+            this.$store.dispatch('loading', false)
+            this.$store.dispatch('alert', 'error')
+          }
+        })
+    },
+    updatePassword() {
+      const password = {
+        id: this.id,
+        data: {
+          oldPassword: this.userPassword.oldPassword,
+          newPassword: this.userPassword.newPassword
+        }
+      }
+
+      this.$store.dispatch('updatePassword', password)
+        .then(response => {
+          if (response) {
+            this.$store.dispatch('loading', false)
+            this.$store.dispatch('alert', 'success')
+          } else {
+            this.$store.dispatch('loading', false)
+            this.$store.dispatch('alert', 'error')
+          }
+        })
     }
   },
   computed: {
     ...mapGetters(['getUser'])
   },
   mounted() {
-    const id = this.getUser.id
-    this.$store.dispatch('findAccountSettingsUser', id).then(response => {
-      this.user.name=response[0].name
-      this.user.lastName=response[0].lastName
-      this.user.userName=response[0].userName
-    })
+    if (this.$store.getters.allUsers.length > 0) {
+      this.$store.dispatch('findAccountSettingsUser', this.getUser.id).then(response => {
+        this.user.name = response[0].name
+        this.user.lastName = response[0].lastName
+        this.user.userName = response[0].userName
+      })
+    } else {
+      this.$store.dispatch('initUsersApp')
+        .then(response => {
+          this.$store.dispatch('findAccountSettingsUser',this.getUser.id).then(response => {
+            this.user.name = response[0].name
+            this.user.lastName = response[0].lastName
+            this.user.userName = response[0].userName
+          })
+          this.$store.dispatch('loading', false)
+        })
+    }
+  },
+  watch: {
+    getUser(payload) {
+      this.$store.dispatch('initUsersApp')
+        .then(response => {
+          this.$store.dispatch('findAccountSettingsUser', payload.id).then(response => {
+            this.user.name = response[0].name
+            this.user.lastName = response[0].lastName
+            this.user.userName = response[0].userName
+          })
+          this.$store.dispatch('loading', false)
+        })
+    }
   },
   validations: {
     user: {
       name: {required},
       lastName: {required},
       userName: {required},
-      password: {},
+    },
+    userPassword: {
+      oldPassword: {required},
+      newPassword: {required},
+      repeatPassword: {required, sameAs: sameAs('newPassword')}
     }
   }
 }

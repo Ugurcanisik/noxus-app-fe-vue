@@ -34,11 +34,15 @@ const actions = {
       .then(response => {
         if (response.status === 200) {
           let data = response.data;
+          state.ciro = []
           for (let key in data) {
             data[key].total = parseFloat(data[key].total).toLocaleString() + ' ₺'
             commit("updateCiroList", data[key]);
           }
         }
+      })
+      .catch(e => {
+        alert(JSON.stringify(e))
       })
   },
   saveCiro({dispatch, commit, state}, payload) {
@@ -46,6 +50,7 @@ const actions = {
       .then(response => {
         if (response.status === 201) {
           payload.id = response.data.id;
+          payload.total = parseFloat(payload.total).toLocaleString() + ' ₺'
           commit("updateCiroList", payload);
           dispatch('initDashboardApp')
           return true

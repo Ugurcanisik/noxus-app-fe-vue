@@ -21,6 +21,6 @@ export default {
   components: {
     TopNav,
     BotNav
-  }
+  },
 }
 </script>

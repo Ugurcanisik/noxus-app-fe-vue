@@ -183,9 +183,7 @@ export default {
     ...mapGetters(["allExpenses"]),
   },
   mounted() {
-    setTimeout(() => {
-      this.totalRows = this.allExpenses.length
-    }, 300)
+    this.totalRows = this.allExpenses.length
   },
   watch: {
     allCiro() {

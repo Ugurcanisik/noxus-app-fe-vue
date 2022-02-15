@@ -22,6 +22,7 @@ const actions = {
       .then(response => {
         if (response.status === 200) {
           let data = response.data;
+          state.dash = []
           for (let key in data) {
             commit("updateDashboard", data[key]);
           }

@@ -34,6 +34,7 @@ const actions = {
       .then(response => {
         if (response.status === 200) {
           let data = response.data;
+          state.types = []
           for (let key in data) {
             commit("updateTypesList", data[key]);
           }

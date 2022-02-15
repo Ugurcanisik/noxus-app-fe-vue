@@ -1,180 +1,27 @@
 <template>
-  <div>
-
-
-    <Auth v-if="auth()"></Auth>
-
-    <div class="wrapper" v-else>
-
-      <div class="loading" :style="isLoading">
-        <div class="lds-ripple">
-          <div></div>
-          <div></div>
-        </div>
-      </div>
-
-
-      <Header></Header>
-      <Sidebar></Sidebar>
-
-
-      <div class="main-panel">
-        <div class="content">
-
-          <transition name="fade" mode="out-in">
-            <router-view></router-view>
-          </transition>
-
-        </div>
-        <Footer></Footer>
-      </div>
-
-    </div>
-
-  </div>
-
+  <transition name="fade" mode="out-in">
+    <router-view></router-view>
+  </transition>
 </template>
-
 <script>
-import Header from './views/include/Header'
-import Sidebar from './views/include/Sidebar'
-import Footer from './views/include/Footer'
-import Auth from './views/auth'
-
 import {mapGetters} from "vuex";
-import {router} from "./router/router";
 
 export default {
-  components: {
-    Header,
-    Sidebar,
-    Footer,
-    Auth
-  },
-  data() {
-    return {
-      isLoad: false,
-      settings: {
-        title: null,
-        ico: null,
-        description: null,
-        keywords: null,
-      },
-    }
-  },
-  methods: {
-    auth() {
-      const path = this.$route.path
-      if (path == '/auth') {
-        return true
-      } else {
-        return false
-      }
-    },
-    initApps() {
-      const path = this.$route.path
-      this.$store.dispatch("initDashboardApp")
-        .then(response => {
-          if (path == '/dashboard' || path == '/') {
-            this.isLoad = false
-          }
-        })
-      this.$store.dispatch("initCiroApp")
-        .then(response => {
-          if (path == '/ciro') {
-            this.isLoad = false
-          }
-        })
-      this.$store.dispatch("initTypesApp")
-      this.$store.dispatch("initExpensesApp")
-        .then(response => {
-          if (path == '/expenses') {
-            this.isLoad = false
-          }
-        })
-      this.$store.dispatch("initStaffApp")
-        .then(response => {
-          if (path == '/staff') {
-            this.isLoad = false
-          }
-        })
-      this.$store.dispatch("initSettingsApp")
-        .then(response => {
-          if (path == '/settings') {
-            this.isLoad = false
-          }
-        })
-    }
-  },
   computed: {
-    ...mapGetters(['getLoading']),
     ...mapGetters(['isAuthenticated']),
-    ...mapGetters(['allSettings']),
-    isLoading() {
-      if (this.isLoad) {
-        return {
-          display: "block"
-        }
-      } else {
-        return {
-          display: "none"
-        }
-      }
-    },
   },
   watch: {
-    getLoading(value) {
-      this.isLoad = value
-    },
-    allSettings(payload) {
-      this.settings.title = payload[0].title
-      this.settings.ico = payload[0].ico
-      this.settings.description = payload[0].description
-      this.settings.keywords = payload[0].keywords
-    },
-    isAuthenticated(auth) {
-      if (this.$route.path == '/auth') {
-        this.initApps()
+    isAuthenticated(payload) {
+      // user sisteme girmek istediğinde token olmadığı için verileri api den alamıyor
+      // giriş yaptıkdan sonra token değeri true donüyor ve api ye tekrar token ile istek atıyor
+      if (payload === true) {
+        this.$store.dispatch('initAuth').then(response => {
+        })
       }
     }
-  },
-  created() {
-
-    this.isLoad = true
-    this.$store.dispatch('initAuth')
-      .then(response => {
-        if (response) {
-          this.initApps()
-        } else {
-          if (this.$route.path!='/auth'){
-            router.push('/auth')
-          }
-        }
-      })
-  },
-  metaInfo() {
-    return {
-      title: this.settings.title,
-      titleTemplate: '%s Yönetim',
-      htmlAttrs: {
-        lang: 'en'
-      },
-      link: [
-        {rel: 'icon', href: 'https://storage.cloud.google.com/noxus-up-file/' + this.settings.ico, type: "image/x-icon"}
-      ],
-      meta: [
-        {charset: 'utf-8'},
-        {name: 'http-equiv', content: 'IE=edge'},
-        {name: 'viewport', content: 'width=device-width, initial-scale=1.0, shrink-to-fit=no'},
-        {name: 'description', content: this.settings.description},
-        {name: 'keywords', content: this.settings.keywords},
-
-      ]
-    }
-  },
+  }
 }
 </script>
-
 <style scoped>
 .fade-enter {
   opacity: 0;

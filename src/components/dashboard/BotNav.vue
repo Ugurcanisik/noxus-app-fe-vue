@@ -106,10 +106,19 @@ export default {
             display: false,
           },
           scales: {
-            xAxes: [{
-              gridLines: {
+            yAxes: [{
+              ticks: {
+                display: false //this will remove only the label
+              },
+              gridLines : {
                 drawBorder: false,
-                display: false
+                display : false
+              }
+            }],
+            xAxes : [ {
+              gridLines : {
+                drawBorder: false,
+                display : false
               }
             }]
           },
@@ -140,10 +149,19 @@ export default {
             display: false,
           },
           scales: {
-            xAxes: [{
-              gridLines: {
+            yAxes: [{
+              ticks: {
+                display: false //this will remove only the label
+              },
+              gridLines : {
                 drawBorder: false,
-                display: false
+                display : false
+              }
+            }],
+            xAxes : [ {
+              gridLines : {
+                drawBorder: false,
+                display : false
               }
             }]
           },

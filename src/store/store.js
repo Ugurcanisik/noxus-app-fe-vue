@@ -10,12 +10,16 @@ import settings from "./modules/settings";
 import users from './modules/users'
 import auth from './modules/auth'
 import dashboard from './modules/dashboard'
+import reports from './modules/reports'
 
 import iziToast from "izitoast";
 import 'izitoast/dist/css/iziToast.min.css';
+import axios from "axios";
+import {router} from "../router/router";
 
 
 Vue.use(Vuex);
+
 
 export const store = new Vuex.Store({
   state: {
@@ -81,6 +85,13 @@ export const store = new Vuex.Store({
     settings,
     users,
     auth,
-    dashboard
+    dashboard,
+    reports
   }
 });
+
+
+
+
+
+

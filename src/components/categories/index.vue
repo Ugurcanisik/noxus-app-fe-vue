@@ -16,15 +16,19 @@
 <script>
 import CategoryList from "./CategoryList";
 import CategoryUpdate from "./CategoryUpdate";
+import {mapGetters} from "vuex";
 
 export default {
   components: {
     CategoryList,
     CategoryUpdate
   },
-  mounted() {
-    if (this.$store.getters.allCategories.length > 0) {
-      this.$store.dispatch('loading', false)
+  created() {
+    if (this.$store.getters.allCategories.length === 0) {
+      this.$store.dispatch('initCategoryApp')
+        .then(response => {
+          this.$store.dispatch('loading', false)
+        })
     }
   }
 }

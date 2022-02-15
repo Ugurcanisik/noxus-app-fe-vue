@@ -10,7 +10,7 @@
           <div class="info">
             <a data-toggle="collapse" href="" aria-expanded="true">
 								<span>
-									{{ userName }}
+									{{ user.fullName }}
 									<span class="user-level">Yetki: Admin</span>
 								</span>
             </a>
@@ -30,6 +30,17 @@
             </a>
           </router-link>
 
+          <router-link
+            active-class="active"
+            to="/reports"
+            tag="li"
+            class="nav-item">
+            <a>
+              <i class="fas fa-chart-line"></i>
+              <p>Raporlar</p>
+            </a>
+          </router-link>
+
 
           <li class="nav-section">
 							<span class="sidebar-mini-icon">
@@ -38,7 +49,9 @@
             <h4 class="text-section">General</h4>
           </li>
 
+
           <router-link
+            v-if="role.ciro.read"
             active-class="active"
             to="/ciro"
             tag="li"
@@ -123,25 +136,21 @@
 </template>
 <script>
 import {mapGetters} from "vuex";
+import {store} from "../../store/store";
 
 export default {
   data() {
     return {
-      userName: null
+      user: {},
+      role: {}
     }
   },
-  mounted() {
-    if (this.getUser){
-      this.userName = this.getUser.fullName
-    }
+  created() {
+    this.user = this.getUser
+    this.role = JSON.parse(this.getUser.role)
   },
   computed: {
     ...mapGetters(["getUser"]),
   },
-  watch: {
-    getUser(value) {
-      this.userName = value.fullName
-    }
-  }
 }
 </script>

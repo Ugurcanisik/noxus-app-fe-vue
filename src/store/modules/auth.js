@@ -15,12 +15,7 @@ const getters = {
     return state.user
   },
   getToken(state) {
-    const token = state.token !== ""
-    if (token) {
-      return state.token
-    } else {
-      return 'token'
-    }
+    return state.token
   }
 }
 
@@ -43,6 +38,7 @@ const actions = {
       return axios.get('/auth/' + token)
         .then(response => {
           if (response.data) {
+            // console.log(response.data)
             commit('setUser', response.data)
             commit("setToken", token)
             //router.push("/")
@@ -69,6 +65,8 @@ const actions = {
                 let token = response.data
                 localStorage.setItem("token", token)
                 commit("setToken", token)
+                localStorage.setItem("expiresIn", new Date().getTime() + (60 * 60 * 1000))
+                dispatch("setTimeoutTimer", 60 * 60 * 1000)
                 swal({
                   text: "Giriş Başarılı",
                   icon: "success",
@@ -93,8 +91,15 @@ const actions = {
   logout({commit, dispatch, state}) {
     commit("clearToken")
     localStorage.removeItem("token")
+    localStorage.removeItem("expiresIn")
     router.push("/auth")
   },
+  setTimeoutTimer({dispatch}, expiresIn) {
+    setTimeout(() => {
+      alert('süre doldu')
+      dispatch("logout")
+    }, expiresIn)
+  }
 }
 
 export default {

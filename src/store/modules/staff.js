@@ -34,6 +34,7 @@ const actions = {
       .then(response => {
         if (response.status === 200) {
           let data = response.data;
+          state.staff = []
           for (let key in data) {
             commit("updateStaffList", data[key]);
           }
