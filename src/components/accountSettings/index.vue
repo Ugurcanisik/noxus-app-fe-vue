@@ -165,39 +165,12 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['getUser'])
+    ...mapGetters(['getUser']),
   },
   mounted() {
-    if (this.$store.getters.allUsers.length > 0) {
-      this.$store.dispatch('findAccountSettingsUser', this.getUser.id).then(response => {
-        this.user.name = response[0].name
-        this.user.lastName = response[0].lastName
-        this.user.userName = response[0].userName
-      })
-    } else {
-      this.$store.dispatch('initUsersApp')
-        .then(response => {
-          this.$store.dispatch('findAccountSettingsUser',this.getUser.id).then(response => {
-            this.user.name = response[0].name
-            this.user.lastName = response[0].lastName
-            this.user.userName = response[0].userName
-          })
-          this.$store.dispatch('loading', false)
-        })
-    }
-  },
-  watch: {
-    getUser(payload) {
-      this.$store.dispatch('initUsersApp')
-        .then(response => {
-          this.$store.dispatch('findAccountSettingsUser', payload.id).then(response => {
-            this.user.name = response[0].name
-            this.user.lastName = response[0].lastName
-            this.user.userName = response[0].userName
-          })
-          this.$store.dispatch('loading', false)
-        })
-    }
+    this.user.name = this.getUser.name
+    this.user.lastName = this.getUser.lastName
+    this.user.userName = this.getUser.userName
   },
   validations: {
     user: {

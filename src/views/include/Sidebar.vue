@@ -10,14 +10,13 @@
           <div class="info">
             <a data-toggle="collapse" href="" aria-expanded="true">
 								<span>
-									{{ user.fullName }}
-									<span class="user-level">Yetki: Admin</span>
+									{{ user.name + ' ' + user.lastName }}
 								</span>
             </a>
             <div class="clearfix"></div>
           </div>
         </div>
-        <ul class="nav nav-primary">
+        <ul class="nav nav-primary" @click="openNav">
 
           <router-link
             active-class="active"
@@ -31,6 +30,7 @@
           </router-link>
 
           <router-link
+            v-if="role.reports"
             active-class="active"
             to="/reports"
             tag="li"
@@ -51,7 +51,7 @@
 
 
           <router-link
-            v-if="role.ciro.read"
+            v-if="role.ciro"
             active-class="active"
             to="/ciro"
             tag="li"
@@ -63,6 +63,7 @@
           </router-link>
 
           <router-link
+            v-if="role.expenses"
             active-class="active"
             to="/expenses"
             tag="li"
@@ -74,8 +75,9 @@
           </router-link>
 
           <router-link
+            v-if="role.categories"
             active-class="active"
-            to="/category"
+            to="/categories"
             tag="li"
             class="nav-item">
             <a>
@@ -85,6 +87,7 @@
           </router-link>
 
           <router-link
+            v-if="role.products"
             active-class="active"
             to="/products"
             tag="li"
@@ -96,6 +99,7 @@
           </router-link>
 
           <router-link
+            v-if="role.staff"
             active-class="active"
             to="/staff"
             tag="li"
@@ -107,6 +111,7 @@
           </router-link>
 
           <router-link
+            v-if="role.users"
             active-class="active"
             to="/users"
             tag="li"
@@ -118,6 +123,7 @@
           </router-link>
 
           <router-link
+            v-if="role.settings"
             active-class="active"
             to="/settings"
             tag="li"
@@ -125,6 +131,18 @@
             <a>
               <i class="flaticon-settings"></i>
               <p>Ayarlar</p>
+            </a>
+          </router-link>
+
+          <router-link
+            v-if="role.typeexpenses"
+            active-class="active"
+            to="/typeexpenses"
+            tag="li"
+            class="nav-item">
+            <a>
+              <i class="icon-rocket"></i>
+              <p>Gider Türleri</p>
             </a>
           </router-link>
 
@@ -145,9 +163,22 @@ export default {
       role: {}
     }
   },
+  methods: {
+    openNav() {
+      const el = document.getElementById('openNav')
+      el.classList.forEach(element => {
+        if (element === 'nav_open') {
+          el.classList.remove('nav_open');
+          el.classList.remove('topbar_open');
+        } else {
+          el.classList.add('nav_open')
+        }
+      })
+    }
+  },
   created() {
     this.user = this.getUser
-    this.role = JSON.parse(this.getUser.role)
+    this.role = this.getUser.role
   },
   computed: {
     ...mapGetters(["getUser"]),

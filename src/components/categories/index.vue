@@ -23,14 +23,6 @@ export default {
     CategoryList,
     CategoryUpdate
   },
-  created() {
-    if (this.$store.getters.allCategories.length === 0) {
-      this.$store.dispatch('initCategoryApp')
-        .then(response => {
-          this.$store.dispatch('loading', false)
-        })
-    }
-  }
 }
 </script>
 

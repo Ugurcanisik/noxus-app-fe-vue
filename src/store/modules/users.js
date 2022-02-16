@@ -1,9 +1,10 @@
 import axios from "axios";
-import {get} from "vue-js-toggle-button/src/utils";
+
 
 const state = {
   users: [],
-  find: {}
+  find: {},
+  role: {}
 }
 
 const getters = {
@@ -17,6 +18,9 @@ const getters = {
   },
   getUserModal(state) {
     return state.find
+  },
+  getUserRoleModal(state) {
+    return state.role
   }
 }
 
@@ -26,6 +30,9 @@ const mutations = {
   },
   updateUserModal(state, payload) {
     state.find = payload
+  },
+  updateUserRoleModal(state, payload) {
+    state.role = payload
   }
 }
 
@@ -60,11 +67,27 @@ const actions = {
       commit('updateUserModal', user)
     }
   },
-  findAccountSettingsUser({dispatch, commit, state}, payload) {
+  findRole({dispatch, commit, state}, payload) {
     const user = getters.findOneUser(payload)
     if (user.length > 0) {
-      return user
+      commit('updateUserRoleModal', user)
     }
+  },
+  updateRoleUser({dispatch, commit, state}, payload) {
+    const user = getters.findOneUser(payload.id)
+
+    if (user.length > 0) {
+      return axios.patch("/users/role/" + payload.id, payload.data)
+        .then(response => {
+          if (response.status === 200) {
+            user[0].role = payload.data.role
+            return true
+          } else {
+            return false
+          }
+        })
+    }
+
   },
   updateUser({dispatch, commit, state}, payload) {
     const user = getters.findOneUser(payload.id)

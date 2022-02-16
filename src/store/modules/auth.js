@@ -35,19 +35,26 @@ const actions = {
   initAuth({commit, dispatch, state}) {
     let token = localStorage.getItem("token")
     if (token) {
-      return axios.get('/auth/' + token)
-        .then(response => {
-          if (response.data) {
-            // console.log(response.data)
-            commit('setUser', response.data)
-            commit("setToken", token)
-            //router.push("/")
-            return true
-          } else {
-            dispatch('logout')
-            return false
-          }
-        })
+
+      let expirationDate = localStorage.getItem("expiresIn")
+      let time = new Date().getTime()
+      if (time >= +expirationDate) {
+        dispatch("logout")
+      } else {
+        return axios.get('/auth/' + token)
+          .then(response => {
+            if (response.data) {
+             // console.log(response.data)
+              commit('setUser', response.data)
+              commit("setToken", token)
+              //router.push("/")
+              return true
+            } else {
+              dispatch('logout')
+              return false
+            }
+          })
+      }
     } else {
       return false
     }
@@ -96,7 +103,6 @@ const actions = {
   },
   setTimeoutTimer({dispatch}, expiresIn) {
     setTimeout(() => {
-      alert('süre doldu')
       dispatch("logout")
     }, expiresIn)
   }

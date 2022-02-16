@@ -53,7 +53,17 @@
           head-variant="light"
         >
 
+
           <template #cell(actions)="row">
+            <button
+              type="button"
+              data-toggle="tooltip" c
+              class="btn btn-link btn-primary btn-lg"
+              data-original-title="Detay"
+              @click="details(row.item.id)"
+            >
+              <i class="flaticon-idea"></i>
+            </button>
             <button
               type="button"
               data-toggle="tooltip" c
@@ -124,6 +134,9 @@ export default {
     }
   },
   methods: {
+    details(id) {
+      alert(id)
+    },
     update(id) {
       this.$store.dispatch('findExpense', id)
     },

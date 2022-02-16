@@ -8,7 +8,7 @@
       </div>
     </div>
     <div class="card-body">
-      <div style="width: 100%">
+      <div style="width: 100%" v-if="users.length">
 
         <span>Listele  </span>
         <b-form-select
@@ -41,7 +41,7 @@
 
 
         <b-table
-          :items="allUsers"
+          :items="users"
           :fields="fields"
           :current-page="currentPage"
           :per-page="perPage"
@@ -53,12 +53,16 @@
           head-variant="light"
         >
 
-          <template #cell(role)="row">
-            <p v-if="row.item.role=='admin'">ADMİN</p>
-            <p v-else>MOD</p>
-          </template>
-
           <template #cell(actions)="row">
+            <button
+              type="button"
+              data-toggle="tooltip" c
+              class="btn btn-link btn-primary btn-lg"
+              data-original-title="Yetkilendir"
+              @click="updateRole(row.item.id)"
+            >
+              <i class="fas fa-user-astronaut"></i>
+            </button>
             <button
               type="button"
               data-toggle="tooltip" c
@@ -98,6 +102,7 @@
 
 
       </div>
+      <b-alert show variant="secondary" v-else>Veri Bulunamadı!</b-alert>
     </div>
   </div>
 
@@ -113,6 +118,7 @@ export default {
   },
   data() {
     return {
+      users: [],
       sortBy: 'name',
       sortDesc: false,
       totalRows: 1,
@@ -124,12 +130,14 @@ export default {
         {key: 'name', label: 'İsim', sortable: true, class: 'text-center'},
         {key: 'lastName', label: 'Soyisim', sortable: true, class: 'text-center',},
         {key: 'userName', label: 'Kullanıcı Adı', sortable: true, class: 'text-center'},
-        {key: 'role', label: 'Yetki', class: 'text-center'},
         {key: 'actions', label: 'İşlemler', class: 'text-center'}
       ],
     }
   },
   methods: {
+    updateRole(id) {
+      this.$store.dispatch('findRole', id)
+    },
     update(id) {
       this.$store.dispatch('findUser', id)
     },
@@ -187,14 +195,27 @@ export default {
   },
   computed: {
     ...mapGetters(["allUsers"]),
+    ...mapGetters(["getUser"]),
   },
   mounted() {
     this.totalRows = this.allUsers.length
+    if (this.allUsers.length > 0) {
+      for (let key in this.allUsers) {
+        if (this.allUsers[key].id != this.getUser.id) {
+          this.users.push(this.allUsers[key])
+        }
+      }
+    }
   },
   watch: {
-    allCiro() {
+    allUsers() {
+      for (let key in this.allUsers) {
+        if (this.allUsers[key].id != this.getUser.id) {
+          this.users.push(this.allUsers[key])
+        }
+      }
       this.totalRows = this.allUsers.length
-    }
+    },
   }
 }
 </script>

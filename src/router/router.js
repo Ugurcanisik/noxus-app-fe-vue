@@ -13,6 +13,7 @@ import Users from "../views/users";
 import Auth from "../views/auth";
 import accountSettings from "../views/accountSettings";
 import Reports from "../views/reports";
+import typeExpenses from "../views/typeexpenses";
 import {store} from "../store/store";
 
 
@@ -32,38 +33,104 @@ const routes = [
       {
         path: '/ciro', component: Ciro,
         beforeEnter: (to, from, next) => {
-          const role = JSON.parse(store.getters.getUser.role).ciro
-          if (role.read) {
+          const role = store.getters.getUser.role.ciro
+          if (role) {
             next();
           } else {
             next('/dashboard');
           }
-
         }
       },
       {
         path: '/expenses', component: Expenses,
+        beforeEnter: (to, from, next) => {
+          const role = store.getters.getUser.role.expenses
+          if (role) {
+            next();
+          } else {
+            next('/dashboard');
+          }
+        }
       },
       {
-        path: '/category', component: Categories,
+        path: '/typeexpenses', component: typeExpenses,
+        beforeEnter: (to, from, next) => {
+          const role = store.getters.getUser.role.typeexpenses
+          if (role) {
+            next();
+          } else {
+            next('/dashboard');
+          }
+        }
+      },
+      {
+        path: '/categories', component: Categories,
+        beforeEnter: (to, from, next) => {
+          const role = store.getters.getUser.role.categories
+          if (role) {
+            next();
+          } else {
+            next('/dashboard');
+          }
+        }
       },
       {
         path: '/products', component: Products,
+        beforeEnter: (to, from, next) => {
+          const role = store.getters.getUser.role.products
+          if (role) {
+            next();
+          } else {
+            next('/dashboard');
+          }
+        }
       },
       {
         path: '/staff', component: Staff,
+        beforeEnter: (to, from, next) => {
+          const role = store.getters.getUser.role.staff
+          if (role) {
+            next();
+          } else {
+            next('/dashboard');
+          }
+        }
       },
       {
         path: '/users', component: Users,
+        beforeEnter: (to, from, next) => {
+          const role = store.getters.getUser.role.users
+          if (role) {
+            next();
+          } else {
+            next('/dashboard');
+          }
+        }
       },
       {
         path: '/settings', component: Settings,
-      },
-      {
-        path: '/accountSettings', component: accountSettings,
+        beforeEnter: (to, from, next) => {
+          const role = store.getters.getUser.role.settings
+          if (role) {
+            next();
+          } else {
+            next('/dashboard');
+          }
+        }
       },
       {
         path: '/reports', component: Reports,
+        beforeEnter: (to, from, next) => {
+          const role = store.getters.getUser.role.reports
+          if (role) {
+            next();
+          } else {
+            next('/dashboard');
+          }
+        }
+      },
+      {
+        path: '/accountSettings', component: accountSettings,
       },
     ]
   },

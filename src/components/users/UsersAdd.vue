@@ -43,16 +43,6 @@
             <label for="password" class="placeholder">Parola</label>
           </div>
 
-          <div class="form-group form-floating-label" :class="{'has-error': $v.newUser.role.$error}">
-            <b-form-select
-              v-model="$v.newUser.role.$model"
-              class="form-control input-border-bottom">
-              <b-form-select-option :value="null" disabled>Rol Seçiniz</b-form-select-option>
-              <b-form-select-option value="mod">MOD</b-form-select-option>
-              <b-form-select-option value="admin">ADMİN</b-form-select-option>
-            </b-form-select>
-          </div>
-
         </div>
         <div class="modal-footer no-bd" style="margin: 0 auto">
           <b-button variant="primary" @click="save" :disabled="$v.newUser.$invalid">Kaydet</b-button>
@@ -75,7 +65,6 @@ export default {
         lastName: null,
         userName: null,
         password: null,
-        role: null
       }
     }
   },
@@ -98,8 +87,7 @@ export default {
         lastName: this.newUser.lastName,
         userName: this.newUser.userName,
         password: this.newUser.password,
-        role: this.newUser.role
-
+        role: '{"ciro":0,"categories":0,"expenses":0,"products":0,"reports":0,"settings":0,"staff":0,"typeexpenses":0,"users":0}'
       }
       this.$store.dispatch("saveUser", newUser)
         .then(response => {
@@ -120,7 +108,6 @@ export default {
       lastName: {required},
       userName: {required},
       password: {required},
-      role: {required}
     }
   }
 }

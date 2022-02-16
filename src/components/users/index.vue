@@ -11,25 +11,20 @@
     </div>
     <UserList></UserList>
     <UserUpdate></UserUpdate>
+    <UserRoleUpdate></UserRoleUpdate>
   </div>
 </template>
 <script>
 import UserList from "./UsersList";
 import UserUpdate from "./UsersUpdate";
+import UserRoleUpdate from "./UsersRoleUpdate";
 
 export default {
   components: {
     UserList,
-    UserUpdate
+    UserUpdate,
+    UserRoleUpdate
   },
-  created() {
-    if (this.$store.getters.allUsers.length === 0) {
-      this.$store.dispatch('initUsersApp')
-        .then(response => {
-          this.$store.dispatch('loading', false)
-        })
-    }
-  }
 }
 </script>
 

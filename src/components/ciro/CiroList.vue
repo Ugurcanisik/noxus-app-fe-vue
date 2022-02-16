@@ -53,7 +53,6 @@
 
           <template #cell(actions)="row">
             <button
-              :disabled="role.update"
               type="button"
               data-toggle="tooltip" c
               class="btn btn-link btn-primary btn-lg"
@@ -63,7 +62,6 @@
               <i class="fa fa-edit"></i>
             </button>
             <button
-              :disabled="role.update"
               type="button"
               data-toggle="tooltip"
               class="btn btn-link btn-danger"
@@ -107,7 +105,6 @@ export default {
   },
   data() {
     return {
-      role: {},
       sortBy: 'date',
       sortDesc: true,
       totalRows: 1,
@@ -180,11 +177,9 @@ export default {
   },
   computed: {
     ...mapGetters(["allCiro"]),
-    ...mapGetters(['getUser'])
 
   },
   mounted() {
-    this.role = JSON.parse(this.getUser.role).ciro
     this.totalRows = this.allCiro.length
   },
   watch: {

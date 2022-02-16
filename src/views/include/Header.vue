@@ -7,17 +7,16 @@
         to="/dashboard"
         tag="a"
         class="logo">
-        <img style="margin-left: 66px" src="https://storage.cloud.google.com/noxus-up-file/noxusico.png" width="50"
-             height="50" alt="navbar brand" class="navbar-brand">
+        <img src="assets/img/logo.svg" alt="navbar brand" class="navbar-brand">
+
       </router-link>
 
-      <button class="navbar-toggler sidenav-toggler ml-auto" type="button" data-toggle="collapse" data-target="collapse"
-              aria-expanded="false" aria-label="Toggle navigation">
+      <button @click="openNav()" class="navbar-toggler sidenav-toggler ml-auto" type="button">
 					<span class="navbar-toggler-icon">
 						<i class="icon-menu"></i>
 					</span>
       </button>
-      <button class="topbar-toggler more"><i class="icon-options-vertical"></i></button>
+      <button @click="openTopBar" class="topbar-toggler more"><i class="icon-options-vertical"></i></button>
       <div class="nav-toggle">
         <button class="btn btn-toggle toggle-sidebar">
           <i class="icon-menu"></i>
@@ -66,6 +65,27 @@ export default {
   methods: {
     logout() {
       this.$store.dispatch('logout')
+    },
+    openNav() {
+      const el = document.getElementById('openNav')
+      el.classList.forEach(element => {
+        if (element === 'nav_open') {
+          el.classList.remove('nav_open');
+          el.classList.remove('topbar_open');
+        } else {
+          el.classList.add('nav_open')
+        }
+      })
+    },
+    openTopBar() {
+      const el = document.getElementById('openNav')
+      el.classList.forEach(element => {
+        if (element === 'topbar_open') {
+          el.classList.remove('topbar_open');
+        } else {
+          el.classList.add('topbar_open')
+        }
+      })
     }
   },
   data() {
@@ -74,7 +94,7 @@ export default {
     }
   },
   mounted() {
-    if (this.getUser){
+    if (this.getUser) {
       this.userName = this.getUser.fullName
     }
   },

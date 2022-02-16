@@ -56,8 +56,9 @@ export default {
   methods: {
     initApps() {
       const path = this.$route.path
+      const role = this.getUser.role
 
-      if (path == '/reports') {
+      if (path == '/reports' || path == '/accountSettings') {
         this.isLoad = false
       }
 
@@ -67,36 +68,76 @@ export default {
             this.isLoad = false
           }
         })
-      this.$store.dispatch("initCiroApp")
-        .then(response => {
-          if (path == '/ciro') {
-            this.isLoad = false
-          }
-        })
-      this.$store.dispatch("initTypesApp")
-      this.$store.dispatch("initExpensesApp")
-        .then(response => {
-          if (path == '/expenses') {
-            this.isLoad = false
-          }
-        })
-      this.$store.dispatch("initStaffApp")
-        .then(response => {
-          if (path == '/staff') {
-            this.isLoad = false
-          }
-        })
-      this.$store.dispatch("initSettingsApp")
-        .then(response => {
-          if (path == '/settings') {
-            this.isLoad = false
-          }
-        })
+
+
+      if (role.ciro) {
+        this.$store.dispatch("initCiroApp")
+          .then(response => {
+            if (path == '/ciro') {
+              this.isLoad = false
+            }
+          })
+      }
+
+      if (role.categories) {
+        this.$store.dispatch("initCategoryApp")
+          .then(response => {
+            if (path == '/categories') {
+              this.isLoad = false
+            }
+          })
+      }
+
+      if (role.typeexpenses) {
+        this.$store.dispatch("initTypesApp")
+          .then(response => {
+            if (path == '/typeexpenses') {
+              this.isLoad = false
+            }
+          })
+      }
+
+      if (role.expenses) {
+        this.$store.dispatch("initExpensesApp")
+          .then(response => {
+            if (path == '/expenses') {
+              this.isLoad = false
+            }
+          })
+      }
+
+      if (role.staff) {
+        this.$store.dispatch("initStaffApp")
+          .then(response => {
+            if (path == '/staff') {
+              this.isLoad = false
+            }
+          })
+      }
+
+      if (role.settings) {
+        this.$store.dispatch("initSettingsApp")
+          .then(response => {
+            if (path == '/settings') {
+              this.isLoad = false
+            }
+          })
+      }
+
+      if (role.users) {
+        this.$store.dispatch("initUsersApp")
+          .then(response => {
+            if (path == '/users') {
+              this.isLoad = false
+            }
+          })
+      }
     }
   },
   computed: {
     ...mapGetters(['getLoading']),
     ...mapGetters(['allSettings']),
+    ...mapGetters(['getUser']),
     isLoading() {
       if (this.isLoad) {
         return {

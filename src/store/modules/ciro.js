@@ -1,4 +1,5 @@
 import axios from "axios";
+import {router} from "../../router/router";
 
 const state = {
   ciro: [],
@@ -40,9 +41,6 @@ const actions = {
             commit("updateCiroList", data[key]);
           }
         }
-      })
-      .catch(e => {
-        alert(JSON.stringify(e))
       })
   },
   saveCiro({dispatch, commit, state}, payload) {

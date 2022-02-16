@@ -6,10 +6,6 @@
       <i class="fa fa-plus"></i>
       Gider Ekle
     </b-button>
-    &nbsp&nbsp&nbsp&nbsp
-    <TypeExpenses style="float: right"></TypeExpenses>
-
-
     <b-modal ref="expenseAdd" title="Gider Ekle" hide-footer>
       <div class="modal-content">
         <div class="modal-body">
@@ -74,13 +70,9 @@
 </template>
 <script>
 import {required, numeric} from "vuelidate/lib/validators"
-import TypeExpenses from './typeexpenses/index'
 import {mapGetters} from "vuex";
 
 export default {
-  components: {
-    TypeExpenses
-  },
   data() {
     return {
       newExpense: {
