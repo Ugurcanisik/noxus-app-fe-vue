@@ -56,7 +56,9 @@ export default {
   methods: {
     initApps() {
       const path = this.$route.path
-      const role = this.getUser.role
+      const role = JSON.parse(this.getUser.role)
+
+
 
       if (path == '/reports' || path == '/accountSettings') {
         this.isLoad = false
@@ -169,7 +171,7 @@ export default {
     return {
       title: this.settings.title,
       htmlAttrs: {
-        lang: 'en'
+        lang: 'en',
       },
       link: [
         {rel: 'icon', href: 'https://storage.cloud.google.com/noxus-up-file/' + this.settings.ico, type: "image/x-icon"}

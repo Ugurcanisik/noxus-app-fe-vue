@@ -1,7 +1,9 @@
 <template>
   <div>
-    <b-button variant="primary" @click="openModal">Gider Türü Ekle</b-button>
-
+    <b-button class="btn-round ml-auto" variant="primary" @click="openModal">
+      <i class="fa fa-plus"></i>
+      Gider Türü Ekle
+    </b-button>
 
     <b-modal ref="typeExpensesAdd" title="Gider Türü Ekle" hide-footer>
       <div class="modal-content">

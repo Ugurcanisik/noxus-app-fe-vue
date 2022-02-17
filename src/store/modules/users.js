@@ -21,7 +21,7 @@ const getters = {
   },
   getUserRoleModal(state) {
     return state.role
-  }
+  },
 }
 
 const mutations = {

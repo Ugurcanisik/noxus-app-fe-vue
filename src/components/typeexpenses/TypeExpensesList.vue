@@ -1,25 +1,55 @@
 <template>
   <div>
+    <div class="card">
+      <div class="card-header">
+        <div class="d-flex align-items-center">
+          <AddTypeExpenses style="margin: 0 auto"></AddTypeExpenses>
+        </div>
+      </div>
+      <div class="card-body">
+        <div style="width: 100%">
 
-    <b-button class="btn-round ml-auto" variant="primary" @click="openListModal">
-      <i class="fa fa-plus"></i>
-      Gider Türü Ekle
-    </b-button>
+          <span>Listele  </span>
+          <b-form-select
+            id="per-page-select"
+            v-model="perPage"
+            :options="pageOptions"
+            size="sm"
+            style="width: 100px;"
+          ></b-form-select>
 
 
+          <b-form-group
+            label="Arama"
+            label-for="filter-input"
+            label-cols-sm="3"
+            label-align-sm="right"
+            label-size="sm"
+            class="mb-0"
+            style="float:right;"
+          >
+            <b-input-group size="sm">
+              <b-form-input
+                id="filter-input"
+                v-model="filter"
+                type="search"
+              ></b-form-input>
 
-    <b-modal ref="typeExpenses" title="Gider Türleri" hide-footer>
-      <div class="modal-content">
-        <div class="modal-body">
+            </b-input-group>
+          </b-form-group>
+
 
           <b-table
             :items="allTypes"
             :fields="fields"
+            :current-page="currentPage"
+            :per-page="perPage"
+            :filter="filter"
             :sort-by.sync="sortBy"
             :sort-desc.sync="sortDesc"
+            @filtered="onFiltered"
             hover
             head-variant="light"
-            sticky-header
           >
 
             <template #cell(actions)="row">
@@ -47,13 +77,23 @@
           </b-table>
 
 
-        </div>
-        <div class="modal-footer no-bd" style="margin: 0 auto">
-          <AddTypeExpenses></AddTypeExpenses>
-          <b-button variant="danger" @click="closeListModal">Kapat</b-button>
+          <div>
+
+            <span style="float: left; margin-top: 15px">{{ totalRows }} kayıttan 1 - {{ perPage }} arasındaki kayıtlar gösteriliyor</span>
+
+            <b-pagination
+              style="float: right; margin-top: 15px"
+              v-model="currentPage"
+              :total-rows="totalRows"
+              :per-page="perPage"
+              pills
+            ></b-pagination>
+          </div>
+
+
         </div>
       </div>
-    </b-modal>
+    </div>
   </div>
 </template>
 <script>
@@ -70,6 +110,10 @@ export default {
       sortBy: 'name',
       sortDesc: false,
       totalRows: 1,
+      currentPage: 1,
+      perPage: 10,
+      pageOptions: [10, 30, 50, {value: 100, text: "All"}],
+      filter: null,
       fields: [
         {key: 'name', label: 'Gider Türü Adı', sortable: true, class: 'text-center'},
         {key: 'actions', label: 'İşlemler', class: 'text-center'}
@@ -77,12 +121,6 @@ export default {
     }
   },
   methods: {
-    openListModal() {
-      this.$refs['typeExpenses'].show()
-    },
-    closeListModal() {
-      this.$refs['typeExpenses'].hide()
-    },
     update(id) {
       this.$store.dispatch('findType', id)
     },
@@ -133,10 +171,22 @@ export default {
         }
       });
     },
+    onFiltered(filteredItems) {
+      this.perPage = filteredItems.length
+      this.currentPage = 1
+    }
   },
   computed: {
     ...mapGetters(["allTypes"]),
   },
+  mounted() {
+    this.totalRows = this.allTypes.length
+  },
+  watch: {
+    allTypes() {
+      this.totalRows = this.allTypes.length
+    }
+  }
 }
 
 </script>

@@ -137,6 +137,9 @@ export default {
           if (response) {
             this.$store.dispatch('loading', false)
             this.$store.dispatch('alert', 'success')
+            this.getUser.name = this.user.name
+            this.getUser.lastName = this.user.lastName
+            this.getUser.userName = this.user.userName
           } else {
             this.$store.dispatch('loading', false)
             this.$store.dispatch('alert', 'error')
@@ -171,6 +174,7 @@ export default {
     this.user.name = this.getUser.name
     this.user.lastName = this.getUser.lastName
     this.user.userName = this.getUser.userName
+    this.id = this.getUser.id
   },
   validations: {
     user: {
