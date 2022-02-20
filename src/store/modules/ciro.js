@@ -70,7 +70,7 @@ const actions = {
       return axios.patch("/ciro/" + payload.id, payload.data)
         .then(response => {
           if (response.status === 200) {
-            ciro[0].total = payload.data.total
+            ciro[0].total = parseFloat(payload.data.total).toLocaleString() + ' ₺'
             ciro[0].date = payload.data.date
             dispatch('initDashboardApp')
             return true

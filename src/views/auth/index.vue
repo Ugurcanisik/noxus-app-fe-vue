@@ -5,6 +5,7 @@
 
     <div class="form-group form-floating-label" :class="{'has-error': $v.user.userName.$error}">
       <input
+        :disabled="loginButton"
         id="userName"
         v-model="$v.user.userName.$model"
         type="text" class="form-control input-border-bottom" required>
@@ -15,6 +16,7 @@
 
     <div class="form-group form-floating-label" :class="{'has-error': $v.user.password.$error}">
       <input
+        :disabled="loginButton"
         id="password"
         v-model="$v.user.password.$model"
         type="password" class="form-control input-border-bottom" required>
@@ -46,7 +48,6 @@ export default {
       },
       button: 'Giriş Yap',
       loginButton: false,
-      script: null
     }
   },
   mounted() {

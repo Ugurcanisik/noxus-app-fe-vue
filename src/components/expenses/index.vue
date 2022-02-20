@@ -11,16 +11,19 @@
     </div>
     <ExpenseList></ExpenseList>
     <ExpenseUpdate></ExpenseUpdate>
+    <ExpenseDetails></ExpenseDetails>
   </div>
 </template>
 <script>
 import ExpenseList from "./ExpensesList";
 import ExpenseUpdate from "./ExpensesUpdate";
+import ExpenseDetails from "./ExpensesDetails";
 
 export default {
   components: {
     ExpenseList,
-    ExpenseUpdate
+    ExpenseUpdate,
+    ExpenseDetails
   },
 }
 </script>

@@ -44,8 +44,10 @@ const actions = {
         return axios.get('/auth/' + token)
           .then(response => {
             if (response.data) {
-              console.log(response.data)
-              commit('setUser', response.data)
+              //console.log(response.data)
+              const user = response.data
+              user.role = JSON.parse(user.role)
+              commit('setUser', user)
               commit("setToken", token)
               //router.push("/")
               return true

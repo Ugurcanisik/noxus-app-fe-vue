@@ -140,7 +140,11 @@ export default {
   },
   watch: {
     getUserRoleModal(payload) {
-      const role = JSON.parse(payload[0].role)
+
+      let role = payload[0].role
+      if (typeof role === "string") {
+        role = JSON.parse(role)
+      }
 
       this.role.ciro = role.ciro
       this.role.expenses = role.expenses
@@ -151,8 +155,8 @@ export default {
       this.role.staff = role.staff
       this.role.users = role.users
       this.role.settings = role.settings
-
       this.id = payload[0].id
+
       this.$refs['updateRoleUser'].show()
     }
   },

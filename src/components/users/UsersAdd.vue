@@ -87,7 +87,7 @@ export default {
         lastName: this.newUser.lastName,
         userName: this.newUser.userName,
         password: this.newUser.password,
-        role: '{"ciro":0,"categories":0,"expenses":0,"products":0,"reports":0,"settings":0,"staff":0,"typeexpenses":0,"users":0}'
+        role: '{"ciro":false,"categories":false,"expenses":false,"products":false,"reports":false,"settings":false,"staff":false,"typeexpenses":false,"users":false}'
       }
       this.$store.dispatch("saveUser", newUser)
         .then(response => {

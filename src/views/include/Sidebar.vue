@@ -178,7 +178,7 @@ export default {
   },
   created() {
     this.user = this.getUser
-    this.role = JSON.parse(this.getUser.role)
+    this.role = this.getUser.role
   },
   computed: {
     ...mapGetters(["getUser"]),

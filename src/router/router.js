@@ -33,7 +33,7 @@ const routes = [
       {
         path: '/ciro', component: Ciro,
         beforeEnter: (to, from, next) => {
-          const role = JSON.parse(store.getters.getUser.role).ciro
+          const role = store.getters.getUser.role.ciro
           if (role) {
             next();
           } else {
@@ -44,7 +44,7 @@ const routes = [
       {
         path: '/expenses', component: Expenses,
         beforeEnter: (to, from, next) => {
-          const role = JSON.parse(store.getters.getUser.role).expenses
+          const role = store.getters.getUser.role.expenses
           if (role) {
             next();
           } else {
@@ -55,7 +55,7 @@ const routes = [
       {
         path: '/typeexpenses', component: typeExpenses,
         beforeEnter: (to, from, next) => {
-          const role = JSON.parse(store.getters.getUser.role).typeexpenses
+          const role = store.getters.getUser.role.typeexpenses
           if (role) {
             next();
           } else {
@@ -66,7 +66,7 @@ const routes = [
       {
         path: '/categories', component: Categories,
         beforeEnter: (to, from, next) => {
-          const role = JSON.parse(store.getters.getUser.role).categories
+          const role = store.getters.getUser.role.categories
           if (role) {
             next();
           } else {
@@ -77,7 +77,7 @@ const routes = [
       {
         path: '/products', component: Products,
         beforeEnter: (to, from, next) => {
-          const role = JSON.parse(store.getters.getUser.role).products
+          const role = store.getters.getUser.role.products
           if (role) {
             next();
           } else {
@@ -88,7 +88,7 @@ const routes = [
       {
         path: '/staff', component: Staff,
         beforeEnter: (to, from, next) => {
-          const role = JSON.parse(store.getters.getUser.role).staff
+          const role = store.getters.getUser.role.staff
           if (role) {
             next();
           } else {
@@ -99,7 +99,7 @@ const routes = [
       {
         path: '/users', component: Users,
         beforeEnter: (to, from, next) => {
-          const role = JSON.parse(store.getters.getUser.role).users
+          const role = store.getters.getUser.role.users
           if (role) {
             next();
           } else {
@@ -110,7 +110,7 @@ const routes = [
       {
         path: '/settings', component: Settings,
         beforeEnter: (to, from, next) => {
-          const role = JSON.parse(store.getters.getUser.role).settings
+          const role = store.getters.getUser.role.settings
           if (role) {
             next();
           } else {
@@ -121,7 +121,7 @@ const routes = [
       {
         path: '/reports', component: Reports,
         beforeEnter: (to, from, next) => {
-          const role = JSON.parse(store.getters.getUser.role).reports
+          const role = store.getters.getUser.role.reports
           if (role) {
             next();
           } else {

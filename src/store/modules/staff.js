@@ -1,4 +1,5 @@
 import axios from "axios";
+import {store} from "../store";
 
 const state = {
   staff: [],
@@ -69,6 +70,16 @@ const actions = {
             staff[0].name = payload.data.name
             staff[0].startDate = payload.data.startDate
             staff[0].endDate = payload.data.endDate
+
+            const allExpenses = store.getters.allExpenses
+            allExpenses.filter(element => {
+              if (element.staff) {
+                if (element.staff.id == payload.id) {
+                  element.staff.name = payload.data.name
+                }
+              }
+            })
+
             return true
           } else {
             return false

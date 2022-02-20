@@ -7,7 +7,7 @@
         </div>
       </div>
       <div class="card-body">
-        <div style="width: 100%">
+        <div v-if="allTypes.length" style="width: 100%">
 
           <span>Listele  </span>
           <b-form-select
@@ -92,6 +92,7 @@
 
 
         </div>
+        <b-alert show variant="secondary" v-else>Veri Bulunamadı!</b-alert>
       </div>
     </div>
   </div>

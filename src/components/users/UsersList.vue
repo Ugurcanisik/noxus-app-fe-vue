@@ -8,7 +8,7 @@
       </div>
     </div>
     <div class="card-body">
-      <div style="width: 100%" v-if="users.length">
+      <div style="width: 100%" v-if="allUsers.length">
 
         <span>Listele  </span>
         <b-form-select
@@ -41,7 +41,7 @@
 
 
         <b-table
-          :items="users"
+          :items="allUsers"
           :fields="fields"
           :current-page="currentPage"
           :per-page="perPage"
@@ -102,6 +102,7 @@
 
 
       </div>
+
       <b-alert show variant="secondary" v-else>Veri Bulunamadı!</b-alert>
     </div>
   </div>
@@ -118,7 +119,6 @@ export default {
   },
   data() {
     return {
-      users: [],
       sortBy: 'name',
       sortDesc: false,
       totalRows: 1,
@@ -195,27 +195,14 @@ export default {
   },
   computed: {
     ...mapGetters(["allUsers"]),
-    ...mapGetters(["getUser"]),
   },
   mounted() {
     this.totalRows = this.allUsers.length
-    if (this.allUsers.length > 0) {
-      for (let key in this.allUsers) {
-        if (this.allUsers[key].id != this.getUser.id) {
-          this.users.push(this.allUsers[key])
-        }
-      }
-    }
   },
   watch: {
     allUsers() {
-      for (let key in this.allUsers) {
-        if (this.allUsers[key].id != this.getUser.id) {
-          this.users.push(this.allUsers[key])
-        }
-      }
       this.totalRows = this.allUsers.length
-    },
+    }
   }
 }
 </script>

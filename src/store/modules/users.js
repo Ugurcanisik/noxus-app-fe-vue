@@ -1,4 +1,5 @@
 import axios from "axios";
+import {store} from "../store";
 
 
 const state = {
@@ -42,9 +43,12 @@ const actions = {
       .then(response => {
         if (response.status === 200) {
           let data = response.data;
+          const activeUser = store.getters.getUser.id
           state.users = []
           for (let key in data) {
-            commit("updateUsersList", data[key]);
+            if (data[key].id != activeUser) {
+              commit("updateUsersList", data[key]);
+            }
           }
         }
       })

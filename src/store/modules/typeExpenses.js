@@ -1,4 +1,5 @@
 import axios from "axios";
+import {store} from "../store";
 
 const state = {
   types: [],
@@ -30,7 +31,7 @@ const mutations = {
 
 const actions = {
   initTypesApp({commit}) {
-    axios.get('/typeexpenses')
+    return axios.get('/typeexpenses')
       .then(response => {
         if (response.status === 200) {
           let data = response.data;
@@ -67,6 +68,12 @@ const actions = {
         .then(response => {
           if (response.status === 200) {
             type[0].name = payload.data.name
+            const allExpenses = store.getters.allExpenses
+            allExpenses.filter(element => {
+              if (element.typeexpense.id == payload.id) {
+                element.typeexpense.name = payload.data.name
+              }
+            })
             return true
           } else {
             return false

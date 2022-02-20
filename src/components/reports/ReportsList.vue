@@ -30,7 +30,7 @@
         </b-button>
       </div>
 
-      <div style="width: 100%">
+      <div v-if="false" style="width: 100%;">
 
         <span>Listele  </span>
         <b-form-select
@@ -94,6 +94,7 @@
 
 
       </div>
+      <b-alert style="margin-top: 20px" show variant="secondary" v-else>Veri Bulunamadı!</b-alert>
 
 
     </div>

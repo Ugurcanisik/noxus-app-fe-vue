@@ -56,8 +56,7 @@ export default {
   methods: {
     initApps() {
       const path = this.$route.path
-      const role = JSON.parse(this.getUser.role)
-
+      const role = this.getUser.role
 
 
       if (path == '/reports' || path == '/accountSettings') {
@@ -67,6 +66,14 @@ export default {
       this.$store.dispatch("initDashboardApp")
         .then(response => {
           if (path == '/dashboard' || path == '/') {
+            this.isLoad = false
+          }
+        })
+
+
+      this.$store.dispatch("initSettingsApp")
+        .then(response => {
+          if (path == '/settings') {
             this.isLoad = false
           }
         })
@@ -117,15 +124,6 @@ export default {
           })
       }
 
-      if (role.settings) {
-        this.$store.dispatch("initSettingsApp")
-          .then(response => {
-            if (path == '/settings') {
-              this.isLoad = false
-            }
-          })
-      }
-
       if (role.users) {
         this.$store.dispatch("initUsersApp")
           .then(response => {
@@ -134,6 +132,8 @@ export default {
             }
           })
       }
+
+
     }
   },
   computed: {

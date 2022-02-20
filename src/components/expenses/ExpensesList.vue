@@ -8,7 +8,7 @@
       </div>
     </div>
     <div class="card-body">
-      <div style="width: 100%">
+      <div v-if="allExpenses.length" style="width: 100%">
 
         <span>Listele  </span>
         <b-form-select
@@ -57,18 +57,16 @@
           <template #cell(actions)="row">
             <button
               type="button"
-              data-toggle="tooltip" c
+              data-toggle="tooltip"
               class="btn btn-link btn-primary btn-lg"
-              data-original-title="Detay"
               @click="details(row.item.id)"
             >
               <i class="flaticon-idea"></i>
             </button>
             <button
               type="button"
-              data-toggle="tooltip" c
+              data-toggle="tooltip"
               class="btn btn-link btn-primary btn-lg"
-              data-original-title="Güncelle"
               @click="update(row.item.id)"
             >
               <i class="fa fa-edit"></i>
@@ -77,7 +75,6 @@
               type="button"
               data-toggle="tooltip"
               class="btn btn-link btn-danger"
-              data-original-title="Sil"
               @click="del(row.item.id)"
             >
               <i class="fa fa-times"></i>
@@ -103,6 +100,7 @@
 
 
       </div>
+      <b-alert show variant="secondary" v-else>Veri Bulunamadı!</b-alert>
     </div>
   </div>
 
@@ -135,7 +133,7 @@ export default {
   },
   methods: {
     details(id) {
-      alert(id)
+      this.$store.dispatch('findDetailsExpense', id)
     },
     update(id) {
       this.$store.dispatch('findExpense', id)
@@ -205,3 +203,8 @@ export default {
   }
 }
 </script>
+<style>
+.div {
+
+}
+</style>

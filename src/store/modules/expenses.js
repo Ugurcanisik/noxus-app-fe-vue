@@ -2,7 +2,8 @@ import axios from "axios";
 
 const state = {
   expenses: [],
-  find: {}
+  find: {},
+  details: {}
 }
 
 const getters = {
@@ -16,6 +17,9 @@ const getters = {
   },
   getExpenseModal(state) {
     return state.find
+  },
+  getDetailsExpenseModal(state) {
+    return state.details
   }
 }
 
@@ -25,6 +29,9 @@ const mutations = {
   },
   updateExpenseModal(state, payload) {
     state.find = payload
+  },
+  updateDetailsExpenseModal(state, payload) {
+    state.details = payload[0]
   }
 }
 
@@ -66,6 +73,13 @@ const actions = {
       commit('updateExpenseModal', expense)
     }
   },
+  findDetailsExpense({dispatch, commit, state}, payload) {
+    state.details = {}
+    const expense = getters.findOneExpense(payload)
+    if (expense.length > 0) {
+      commit('updateDetailsExpenseModal', expense)
+    }
+  },
   updateExpense({dispatch, commit, state}, payload) {
     const expense = getters.findOneExpense(payload.id)
 
@@ -75,7 +89,7 @@ const actions = {
           if (response.status === 200) {
             expense[0].typeexpense = {id: response.data.typeexpense.id, name: response.data.typeexpense.name}
             expense[0].description = payload.data.description
-            expense[0].total = payload.data.total
+            expense[0].total = parseFloat(payload.data.total) + ' ₺'
             if (payload.data.staff !== null) {
               expense[0].staff = {id: response.data.staff.id, name: response.data.staff.name}
             } else {
