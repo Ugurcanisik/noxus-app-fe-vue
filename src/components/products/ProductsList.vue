@@ -223,7 +223,9 @@ export default {
       categoryArray.push({value: null, text: 'Bir Kategori Seçiniz!', disabled: true})
 
       for (let i in category) {
-        categoryArray.push({value: category[i].id, text: category[i].name})
+        if (category[i].isActive==true){
+          categoryArray.push({value: category[i].id, text: category[i].name})
+        }
       }
       return categoryArray
     },
