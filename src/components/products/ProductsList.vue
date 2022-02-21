@@ -11,11 +11,11 @@
           v-model="selected"
           @change="chanceCategory($event)"
         ></b-form-select>
-        <ProductAdd style="margin-left: 30%" :categoryId="selected" ></ProductAdd>
+        <ProductAdd style="margin-left: 30%" :categoryId="selected"></ProductAdd>
       </div>
     </div>
     <div class="card-body">
-      <div style="width: 100%">
+      <div v-if="products.length" style="width: 100%">
 
         <span>Listele  </span>
         <b-form-select
@@ -47,7 +47,7 @@
         </b-form-group>
 
         <b-table
-          :items="allProducts"
+          :items="products"
           :fields="fields"
           v-sortable="allProducts"
           :current-page="currentPage"
@@ -72,7 +72,17 @@
             />
           </template>
 
+
           <template #cell(actions)="row">
+            <button
+              type="button"
+              data-toggle="tooltip" c
+              class="btn btn-link btn-primary btn-lg"
+              data-original-title="Resim Güncelle"
+              @click="updatePicture(row.item.id)"
+            >
+              <i class="icon-picture"></i>
+            </button>
             <button
               type="button"
               data-toggle="tooltip" c
@@ -112,6 +122,7 @@
 
 
       </div>
+      <b-alert show variant="secondary" v-else>Lütfen Bir Kategori Seçiniz!</b-alert>
     </div>
   </div>
 
@@ -128,6 +139,7 @@ export default {
   },
   data() {
     return {
+      products: [],
       selected: null,
       totalRows: 1,
       currentPage: 1,
@@ -137,7 +149,6 @@ export default {
       fields: [
         {key: 'rank', label: 'Sıralama', class: 'text-center'},
         {key: 'name', label: 'Ürün Adı', sortable: true, class: 'text-center'},
-        {key: 'description', label: 'Ürün Açıklaması', class: 'text-center'},
         {key: 'price', label: 'Ürün Fiyatı', sortable: true, class: 'text-center'},
         {key: 'isActive', label: 'Aktif mi ?', class: 'text-center',},
         {key: 'actions', label: 'İşlemler', class: 'text-center'}
@@ -147,6 +158,9 @@ export default {
   methods: {
     update(id) {
       this.$store.dispatch('findProduct', id)
+    },
+    updatePicture(id) {
+      this.$store.dispatch('findProductPicture', id)
     },
     del(id) {
       swal({
@@ -170,7 +184,7 @@ export default {
               if (response) {
                 swal({
                   title: 'Silindi!',
-                  icon : "success",
+                  icon: "success",
                   type: 'success',
                   buttons: {
                     confirm: {
@@ -213,8 +227,19 @@ export default {
       }
       return categoryArray
     },
-    chanceCategory(payload) {
-      this.$store.dispatch('chanceCategory', payload)
+    chanceCategory(categoryId) {
+      this.products = []
+
+      this.allProducts.filter(element => {
+        if (element.category.id === categoryId) {
+          this.products.push(element)
+        }
+      })
+
+      this.products = this.products.sort((a, b) => {
+        return a.rank - b.rank
+      })
+
     }
   },
   computed: {
@@ -222,8 +247,8 @@ export default {
     ...mapGetters(["allCategories"]),
   },
   watch: {
-    allProducts(payload) {
-        this.totalRows = this.allProducts.length
+    allProducts() {
+      this.totalRows = this.allProducts.length
     }
   },
   directives: {

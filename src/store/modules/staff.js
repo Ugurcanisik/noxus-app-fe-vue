@@ -116,6 +116,7 @@ const actions = {
     if (staff.length > 0) {
       axios.patch("/staff/" + payload.id, payload.data)
         .then(response => {
+          staff[0].isActive = payload.data.isActive
         })
     }
 

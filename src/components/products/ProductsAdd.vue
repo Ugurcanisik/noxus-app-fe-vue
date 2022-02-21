@@ -12,13 +12,15 @@
       <div class="modal-content">
         <div class="modal-body">
 
+          <!--
+
           <div class="form-group form-floating-label">
             <b-form-file
               class="form-control input-border-bottom"
               v-model="newProduct.picture"
             ></b-form-file>
           </div>
-
+-->
 
           <div class="form-group form-floating-label" :class="{'has-error': $v.newProduct.name.$error}">
             <input
@@ -75,7 +77,6 @@ export default {
     return {
       selected: null,
       newProduct: {
-        picture: null,
         name: null,
         description: null,
         price: null,
@@ -88,24 +89,7 @@ export default {
     }
   },
   methods: {
-    uploadFile(event) {
-      const file = event.target.files[0]
-      let formData = new FormData()
-
-      formData.append('picture', file)
-
-      axios.post('products/pic', formData, {
-        async: false,
-        cache: false,
-        contentType: false,
-        processData: false,
-      })
-        .then(response => {
-          console.log(response)
-        })
-    },
     openModal() {
-      this.newProduct.picture = null
       this.newProduct.name = null
       this.newProduct.description = null
       this.newProduct.price = null
@@ -118,11 +102,11 @@ export default {
     save() {
       this.$store.dispatch('loading', true)
       let newProduct = {
-        picture: this.newProduct.picture,
         name: this.newProduct.name,
         description: this.newProduct.description,
         price: this.newProduct.price,
-        category: this.selected,
+        isActive: true,
+        category: this.selected
       }
       this.$store.dispatch("saveProduct", newProduct)
         .then(response => {
@@ -143,7 +127,9 @@ export default {
       categoryArray.push({value: null, text: 'Ürün Kategorisi Seçiniz', disabled: true})
 
       for (let i in category) {
-        categoryArray.push({value: category[i].id, text: category[i].name})
+        if (category[i].isActive == true) {
+          categoryArray.push({value: category[i].id, text: category[i].name})
+        }
       }
 
       return categoryArray

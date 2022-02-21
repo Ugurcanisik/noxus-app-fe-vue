@@ -138,7 +138,10 @@ export default {
       staffArray.push({value: null, text: 'Personel Seçiniz', disabled: true})
 
       for (let i in staff) {
-        staffArray.push({value: staff[i].id, text: staff[i].name})
+        if (staff[i].isActive == true) {
+          staffArray.push({value: staff[i].id, text: staff[i].name})
+        }
+
       }
 
       return staffArray

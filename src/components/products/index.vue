@@ -11,16 +11,19 @@
     </div>
     <ProductList></ProductList>
     <ProductUpdate></ProductUpdate>
+    <ProductsUpdatePicture></ProductsUpdatePicture>
   </div>
 </template>
 <script>
 import ProductList from "./ProductsList";
 import ProductUpdate from "./ProductsUpdate";
+import ProductsUpdatePicture from "./ProductsUpdatePicture";
 
 export default {
   components: {
     ProductList,
-    ProductUpdate
+    ProductUpdate,
+    ProductsUpdatePicture
   },
   mounted() {
     if (this.$route.path === '/products') {

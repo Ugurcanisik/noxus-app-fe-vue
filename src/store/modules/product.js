@@ -2,7 +2,8 @@ import axios from "axios";
 
 const state = {
   products: [],
-  find: {}
+  find: {},
+  picture: {}
 }
 
 const getters = {
@@ -16,6 +17,9 @@ const getters = {
   },
   getProductModal(state) {
     return state.find
+  },
+  getProductPictureModal(state) {
+    return state.picture
   }
 }
 
@@ -25,12 +29,15 @@ const mutations = {
   },
   updateProductModal(state, payload) {
     state.find = payload
+  },
+  updateProductPictureModal(state, payload) {
+    state.picture = payload
   }
 }
 
 const actions = {
-  initProductsApp({dispatch, commit, state}, payload) {
-    axios.get('/products/' + payload)
+  initProductsApp({dispatch, commit, state}) {
+    axios.get('/products')
       .then(response => {
         if (response.status === 200) {
           state.products = []
@@ -42,32 +49,17 @@ const actions = {
       })
   },
   saveProduct({dispatch, commit, state}, payload) {
-
-    let formData = new FormData()
-    formData.append('picture', payload.picture)
-    formData.append('name', payload.name)
-    formData.append('description', payload.description)
-    formData.append('price', payload.price)
-    formData.append('category', payload.category)
-
-    return axios.post('/products', formData, {
-      async: false,
-      cache: false,
-      contentType: false,
-      processData: false,
-    })
+    return axios.post('/products', payload)
       .then(response => {
         if (response.status === 201) {
+          console.log(response)
           payload.id = response.data.id;
-          payload.isActive = true
           commit("updateProductsList", payload);
           return true
         } else {
           return false
         }
       })
-
-
   },
   findProduct({dispatch, commit, state}, payload) {
     const product = getters.findOneProduct(payload)
@@ -75,19 +67,43 @@ const actions = {
       commit('updateProductModal', product)
     }
   },
+  findProductPicture({dispatch, commit, state}, payload) {
+    const product = getters.findOneProduct(payload)
+    if (product.length > 0) {
+      commit('updateProductPictureModal', product)
+    }
+  },
   updateProduct({dispatch, commit, state}, payload) {
+    const product = getters.findOneProduct(payload.id)
+
+    if (product.length > 0) {
+
+      return axios.patch("/products/" + payload.id, payload.data)
+        .then(response => {
+          if (response.status === 200) {
+            product[0].name = payload.data.name
+            product[0].description = payload.data.description
+            product[0].price = payload.data.price
+            product[0].categoryId = payload.data.category
+            return true
+          } else {
+            return false
+          }
+        })
+
+
+    }
+
+  },
+  updatePicture({dispatch, commit, state}, payload) {
     const product = getters.findOneProduct(payload.id)
 
     if (product.length > 0) {
 
       let formData = new FormData()
       formData.append('picture', payload.data.picture)
-      formData.append('name', payload.data.name)
-      formData.append('description', payload.data.description)
-      formData.append('price', payload.data.price)
-      formData.append('category', payload.data.category)
 
-      return axios.patch("/products/" + payload.id, formData, {
+      return axios.patch("/products/picture/" + payload.id, formData, {
         async: false,
         cache: false,
         contentType: false,
@@ -95,10 +111,6 @@ const actions = {
       })
         .then(response => {
           if (response.status === 200) {
-            product[0].name = payload.data.name
-            product[0].description = payload.data.description
-            product[0].price = payload.data.price
-            product[0].categoryId = payload.data.category
             return true
           } else {
             return false

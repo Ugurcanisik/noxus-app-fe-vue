@@ -3,14 +3,16 @@
     <div class="modal-content">
       <div class="modal-body">
 
+        <!--
+                <div class="form-group form-floating-label">
+                  <b-form-file
+                    class="form-control input-border-bottom"
+                    v-model="$v.updateProduct.picture.$model"
+                    ref="file"
+                  ></b-form-file>
+                </div>
 
-        <div class="form-group form-floating-label">
-          <b-form-file
-            class="form-control input-border-bottom"
-            v-model="$v.updateProduct.picture.$model"
-            ref="file"
-          ></b-form-file>
-        </div>
+                -->
 
         <div class="form-group form-floating-label" :class="{'has-error': $v.updateProduct.name.$error}">
           <input
@@ -60,7 +62,6 @@ export default {
   data() {
     return {
       updateProduct: {
-        picture: null,
         name: null,
         description: null,
         price: null,
@@ -78,7 +79,6 @@ export default {
       const updateProduct = {
         id: this.id,
         data: {
-          picture: this.updateProduct.picture,
           name: this.updateProduct.name,
           description: this.updateProduct.description,
           price: this.updateProduct.price,
@@ -127,7 +127,6 @@ export default {
   },
   validations: {
     updateProduct: {
-      picture: {},
       name: {required},
       price: {required},
       description: {},

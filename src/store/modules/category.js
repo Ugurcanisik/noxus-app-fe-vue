@@ -79,6 +79,7 @@ const actions = {
     if (category.length > 0) {
       axios.patch("/categories/isActive/" + payload.id, payload.data)
         .then(response => {
+          category[0].isActive = payload.data.isActive
         })
     }
 

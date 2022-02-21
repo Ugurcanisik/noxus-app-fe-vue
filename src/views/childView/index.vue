@@ -71,6 +71,7 @@ export default {
         })
 
 
+
       this.$store.dispatch("initSettingsApp")
         .then(response => {
           if (path == '/settings') {
@@ -96,6 +97,14 @@ export default {
             }
           })
       }
+
+
+        this.$store.dispatch("initProductsApp")
+          .then(response => {
+            if (path == '/products') {
+              this.isLoad = false
+            }
+          })
 
       if (role.typeexpenses) {
         this.$store.dispatch("initTypesApp")
